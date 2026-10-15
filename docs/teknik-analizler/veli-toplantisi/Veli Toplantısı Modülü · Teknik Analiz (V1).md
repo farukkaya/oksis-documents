@@ -180,7 +180,7 @@ Türetilen (kolonsuz, EF `Ignore`): `EditableUntil = CompletedAt + 7 gün`, `IsF
 | I-4 | Arşiv sezonda yazma yok (BR-PM-08) | `active-season-write` politikası (sınıf düzeyi) + handler'da sezon `Archived` → 409 |
 | I-5 | Yalnız `Draft` silinir; yayınlanan şube organizasyondan çıkarılamaz (BR-PM-05/06) | `EnsureDeletable`, `RemoveDraftSection` |
 | I-6 | Veli kendi yanıtını yalnız `Published` **ve** `now < StartsAt` iken verir (BR-PM-19) — 5 dk iş gecikmesi kilidi açmaz | `IsParentResponseOpen(now)` |
-| I-7 | Veli adına yanıt `Published` veya `Started`'da (BR-PM-19) ve hedef veli **aktif davetli** olmalı `[GŞ-Y2]` | `RecordOnBehalfResponse` |
+| I-7 | Veli adına yanıt yalnız `Published`'da (BR-PM-19, §17.1a) ve hedef veli **aktif davetli** olmalı `[GŞ-Y2]` | `RecordOnBehalfResponse` |
 | I-8 | Fiili katılım ve not yalnız `Started` ya da `Completed && now < EditableUntil` (BR-PM-10, BR-PM-30) | `IsFieldDataOpen(now)`; not handler'ı şubeden okur |
 | I-9 | `Started → Published` (erteleme) yalnız hiç `IsPresent` satırı ve hiç dolu not yokken | domain `hasFieldData` parametresi alır (not ayrı kök; sorgu handler'da) |
 | I-10 | `Completed`, `Cancelled` terminal | durum makinesi |
