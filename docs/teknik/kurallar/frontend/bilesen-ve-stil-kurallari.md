@@ -89,7 +89,7 @@
 
 ## 8. Metin ve dil
 
-- **Arayüz metinleri Türkçedir ve doğrudan yazılır.** i18n kütüphanesi yoktur.
+- **Arayüz metinleri Türkçedir ve doğrudan yazılır.** i18n kütüphanesi yoktur. ADR [[0029-cok-dil-altyapisi-ingilizce]] (2026-10-23) ile `tr` + `en` kabul edildi; zemin aşaması bitene kadar bu satır kodun bugünkü hâlini anlatır; zemin bitince kural "sistem metni anahtarla yazılır" olur.
 - Kod yorumları Türkçedir. Tanım noktalarına yazılır (arayüz, şema, bariz olmayan iş kuralı); kendini açıklayan koda yorum yazılmaz.
 - Tanımlayıcılar İngilizcedir (bkz. [[adlandirma]]).
 

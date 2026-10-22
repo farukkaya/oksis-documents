@@ -6,7 +6,7 @@ Bu dosya `oksis-documents` deposunda çalışan Codex oturumlarına yol gösteri
 
 `oksis-documents`, OKSİS'in **belge merkezidir**. Kod barındırmaz. Obsidian ile görüntülenir; **vault kökü `docs/`**. Yeni oturumlar ve AI ajanları için OKSİS hakkında **birincil kaynaktır** — bir işe başlamadan önce `docs/_indeks.md`'den ilgili belgeye git.
 
-**OKSİS:** Türk özel okulları için çok kiracılı (multi-tenant) SaaS okul yönetim sistemi. Satır düzeyi izolasyon `SchoolId` ile. Arayüz dili Türkçe (bugün i18n altyapısı yok; çoklu dil kapsam dışı). Domain dili ve commit mesajları Türkçe; kod identifier'ları İngilizce.
+**OKSİS:** Türk özel okulları için çok kiracılı (multi-tenant) SaaS okul yönetim sistemi. Satır düzeyi izolasyon `SchoolId` ile. Arayüz dili bugün Türkçe ve i18n altyapısı yok; çok dil (`tr` + `en`) `docs/domain/kararlar/0029-cok-dil-altyapisi-ingilizce.md` ile kabul edildi (2026-10-23), zemin aşaması bitince sistem metinleri anahtarla yazılır. Domain dili ve commit mesajları Türkçe; kod identifier'ları İngilizce.
 
 ## Depolar
 

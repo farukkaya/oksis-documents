@@ -71,6 +71,6 @@ MVP kapsamı ve sprint planı: [[mvp-kapsami]].
 - Ödeme entegrasyonu
 - Yemekhane / servis modülü
 - K12NET / MEB entegrasyonu
-- Çoklu dil (TR dışında) — bugün i18n altyapısı da yoktur
+- Çoklu dil (TR dışında) — bugün i18n altyapısı da yoktur. **Kapsama alındı:** İngilizce, [[0029-cok-dil-altyapisi-ingilizce]] (2026-10-23); zemin bitince bu satır kaldırılır
 - White-label (okula özel tema)
 - Mobilde çevrimdışı çalışma

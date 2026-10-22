@@ -244,7 +244,7 @@ Ayrıntı: [[test]].
 | Zustand | **Kurulu değil.** Bağlam durumu web'de React context'te, mobilde modül deposu ve `useSyncExternalStore` ile tutulur. |
 | react-hook-form (apps/web) | `apps/web` bağımlılığı değil (yalnız `packages/ui` içinde). Web formlarında kalıp `useState` ve `schema.safeParse`. |
 | TanStack Table / grid kütüphanesi | Yok. Tablolar portlanmış prototip CSS sınıflarıyla yazılır. |
-| i18n kütüphanesi | Yok. Arayüz metinleri doğrudan Türkçe yazılır. |
+| i18n kütüphanesi | Bugün yok; arayüz metinleri doğrudan Türkçe yazılır. ADR [[0029-cok-dil-altyapisi-ingilizce]] (2026-10-23) ile `tr` + `en` kabul edildi; zemin aşaması bitene kadar bu satır kodun bugünkü hâlini anlatır (`next-intl`, `i18next`, Tolgee self-hosted). |
 | NativeWind, React Navigation, jest (mobil) | Yok. Stil `tokens.ts` üzerinden, yönlendirme Expo Router ile yapılır. |
 | `apps/mobile` → `@workspace/ui` importu | **Yasak** (web/DOM bileşenleri). |
 | Yeni kütüphane | Sessizce eklenmez, önce sorulur. |
