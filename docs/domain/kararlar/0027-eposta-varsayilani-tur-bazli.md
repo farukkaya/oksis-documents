@@ -59,6 +59,17 @@ Kodda iki engel vardı:
 
 **Düşük.** Kapı tek sınıftadır. Geri almak için `RecipientCanChooseEmail` kapısı yeniden `false` yapılır. Kolonlar zararsız kalır. Veri göçünün `Down` adımı eski `DefaultEmailEnabled` değerlerini sabit listeden geri yazar. Alıcıların yazdığı e-posta tercihleri korunur.
 
+## Uygulama durumu (2026-10-22, oksis-api 02fbcdc1)
+
+Kodda gerçekleşti; `accepted` durumu kodla uyumlu.
+
+- Bildirim türü kataloğunda "seçilebilir" ve "varsayılan açık" iki ayrı bayraktır; varsayılan yalnız veli toplantısının yayın, değişiklik ve iptal türlerinde açıktır. Eski yedi türün varsayılanı sıfırlandı.
+- Alıcı tercihi boş bırakılabilir; boş, katalog varsayılanı demektir.
+- Kanal kapıları kararda sayılan sırayla (yapılandırma, kapsam, katalog, tercih, adres) uygulanır; kapsam push eşlemesine değil olay matrisi eşlemesine bağlıdır.
+- Veli toplantısının diğer dört türünde e-posta seçilemez.
+- **Sapma:** karar "üretimde liste dışı bir sağlayıcı başlangıç hatası verir" diyor; kodda liste dışı yapılandırma uyarı loglar ve kanalı kapalı tutar, uygulama başlar. Başlangıcı yalnız bozuk izin listesi ve **üretimde** izin listesindeki tüketici e-posta sağlayıcısı durdurur.
+- **Doğrulanamayan:** KVKK hukuk teyidi ve "teyit gelene kadar üretime alınmaz" koşulu koddan izlenemez; yapılandırma kapısı varsayılan kapalıdır.
+
 ## İlgili
 
 - [[0012-bildirim-ilkeleri]]

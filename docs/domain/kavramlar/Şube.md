@@ -72,6 +72,7 @@ Okul ayarına bağlı olarak iki yol (BR-AS-008):
 - [[Notlar]] — [[Not Defteri]] koordinatının bir ekseni; "bu şubeye kim not girer" sorusu ders programından çözülür
 - [[Ödevler]] — [[Ödev]] şube başına ayrı kayıttır; rehber öğretmen kendi şubesinin ödevlerini salt liste olarak görür; yoğunluk panosu şube × gün sayar
 - [[Ders Programı Yönetimi]] — [[Ders Programı]]'nın sahibi şubedir; rehber öğretmen kendi şubesinin yayınlanmış haftasını izinsiz okur ("Sınıfım"), şube haftası başlığında rehber öğretmeni taşır
+- [[Veli Toplantıları]] — [[Şube Toplantısı]] şube başına ayrı kayıttır; sorumlusu kayıtta tutulmaz, her istekte şubenin güncel rehber öğretmeni yetkilidir
 
 Şubeyi kullanan ama henüz notu olmayan modüller: Students, Teachers, Attendance, Schools, Duties, Announcements.
 

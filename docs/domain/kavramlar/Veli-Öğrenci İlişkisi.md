@@ -52,6 +52,7 @@ Bayrakların neden ayrı tutulduğunu gösteren MEB örnekleri (kurgu gerekçesi
 - [[Bildirimler]] — veliye giden bildirimlerin alıcı çözümlemesi bu ilişkiyi izler
 - [[Notlar]] — aile not yüzünün kapsam kapısı: çocuk kimliği sunucuda bu ilişkiyle doğrulanır, iptal edilmiş bağ kapsam dışı; "yeni not" damgası veli başına ayrı tutulur
 - [[Ödevler]] — velinin salt okunur ödev yüzü ve üç bildirimin veli ayağı; kapsam sorgusu Notlar'dan bilinçli olarak kopyalandı, ortak servise çıkarılmadı (iki modül bağımsız evrilsin)
+- [[Veli Toplantıları]] — [[Şube Toplantısı]]'nın davetli kümesi yalnız bilgi görme yetkili, iptal edilmemiş, geçerlilik aralığındaki bağdan çözülür (bilgisi kısıtlı veli istisnası uygulanmaz); bağ iptali olayla anında, yetki/süre değişimi saatlik uzlaştırmayla davetliyi düşürür; veli adına yanıt ve katılım işareti bağın şu an canlı olmasını ister
 
 Veli bağını okuyan ama henüz notu olmayan modüller: Messaging.
 

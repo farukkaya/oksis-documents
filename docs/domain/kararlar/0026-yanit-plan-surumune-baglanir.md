@@ -47,6 +47,17 @@ Bildirim tarafında da aynı soru vardı. Ertelemeden önce kuyruğa girmiş bir
 
 **Düşük–orta.** A'ya dönmek için güncel sürüm satırları tek satıra indirilir, eski sürüm satırları silinir ya da arşivlenir (tek göç). Olay kimliği ve tazelik denetimi sürüme dayandığı için bildirim tarafının da birlikte değişmesi gerekir. Geçmiş tablosu her iki modelde aynı kalır.
 
+## Uygulama durumu (2026-10-22, oksis-api 02fbcdc1)
+
+Kodda gerçekleşti; `accepted` durumu kodla uyumlu.
+
+- Yanıt satırı şube × veli × plan sürümüyle tekildir; güncel yanıt güncel sürümdeki satırdır, "yanıt yok" satır yokluğudur.
+- Sürüm artışında güncel yanıtı olan her veli için geçmişe "plana bağlı sıfırlama" satırı yazılır; değeri değişmeyen yanıt geçmiş yazmaz.
+- Hatırlatma damgaları "gönderildiği sürüm" olarak tutulur; bildirim tazeliği bildirim modülüne kaydedilen tazelik portuyla sorulur.
+- Yanıt geçmişi ve işlem kaydı için güncelleme/silme çağrısı mimari testle yasaktır.
+- **İnceltme:** karar "tarih ya da saat" diyor; kodda sürümü yalnız **tarih ve başlangıç saati** artırır. Yalnız bitiş saati değişikliği yanıtları korur ve yer değişikliğiyle aynı bilgi sürümünü artırır (ayrı işlem kaydı türüyle).
+- **Ek (kararda yok):** başlamış ama fiili verisi olmayan toplantı ertelenince yayına geri döner; davetli listesi yeniden canlanır.
+
 ## İlgili
 
 - [[Veli Toplantıları]]

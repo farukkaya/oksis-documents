@@ -1,6 +1,6 @@
 ---
 tags: [domain/index]
-last-synced: 2026-09-13 (294ffe6)
+last-synced: 2026-10-22 (02fbcdc1)
 ---
 
 # OKSIS Domain Haritası
@@ -106,6 +106,12 @@ Projeye yeni geldiysen [[Sezon]] ile başla — okulun bütün akademik kayıtla
 - [[Kulüp Tercihi]] — öğrencinin sıralı üç kulübü; başvuru değildir; son kayıt anı "önce kaydeden önce" ölçütü, her değişiklikte yenilenir
 - [[Kulüp Yerleştirmesi]] — öğrenci başına taslak ve yayınlanmış kulüp; otomatik yerleştirme kontenjanı aşmaz, idare elle aşabilir; yayın üyelik doğurur, kısmi yayın yok
 
+### Veli toplantıları
+
+- [[Veli Toplantısı]] — okul geneli planın çatı kaydı; `Draft | Published`; tamamlandı/iptal özeti şubelerden türer
+- [[Şube Toplantısı]] — asıl kök; `Draft → Published → Started → Completed`, `Cancelled`; davetli, yanıt, yanıt geçmişi ve fiili katılım içinde; sorumlu dondurulmaz, yanıt plan sürümüne bağlı
+- [[Görüşme Notu]] — öğrenci başına tek not; ayrı kök, sürümlü, her okuması izlenir, veliye asla gösterilmez, süreli imha
+
 ## Modüller
 
 - [[Okul Yönetimi]] — kurum bilgisi, akademik politika, zil düzeni, tatil, modül ve bildirim ayarları
@@ -126,6 +132,7 @@ Projeye yeni geldiysen [[Sezon]] ile başla — okulun bütün akademik kayıtla
 - [[Notlar]] — dönem içi not girişi; yayın birimi sütun, tembel defter, kapsam ders programından, karar sunucuda
 - [[Ödevler]] — ödevin tüm ömrü; beş yüz (öğretmen, öğrenci, veli, idare, rehber), görünüm kimlikten, sahiplik ≠ kapsam, üç bildirim ve iki gece işi
 - [[Sınav Takvimi]] — sınav haftası; iki düzen (ders saati, kelebek), iki adımlı yayın, üç kademeli kural denetimi, ders programına yazmaz
+- [[Veli Toplantıları]] — tek plan, şube başına ayrı toplantı; veli beyanı ile fiili katılım iki eksen; güncel rehber yürütür; görüşme notu en dar erişimli veri; yedi bildirim, beş zamanlanmış iş
 
 ## Kararlar
 
@@ -149,6 +156,9 @@ Projeye yeni geldiysen [[Sezon]] ile başla — okulun bütün akademik kayıtla
 - [[0014-kulup-basvurusu-ve-uyeligi-tek-kayit]] — başvuru ve üyelik tek kayıt; iki liste aynı satırlardan süzülür
 - [[0015-danismansiz-aktif-kulup-basvuru-alir]] — yayındaki kulüp danışmansız da başvuru alır; sonradan atanan danışman bekleyenleri devralır
 - [[0023-kulup-uye-kabul-sorumlusu-sezon-basinda-secilir]] — kulüp üye kabul sorumlusu (öğretmen/idare) yalnız sezon sihirbazında seçilir, aktivasyonda yazılır, sezon içinde değişmez; idare modunda tercih + yerleştirme
+- [[0025-sube-toplantisi-ayri-agregat]] — organizasyon yalnız çatıdır; şube toplantısı ve görüşme notu ayrı köklerdir, not şube yolu üzerinden yüklenemez
+- [[0026-yanit-plan-surumune-baglanir]] — veli yanıtı plan sürümüne bağlanır; tarih/başlangıç saati değişikliği sürümü artırır, sıfırlama geçmişe yazılır
+- [[0027-eposta-varsayilani-tur-bazli]] — e-posta "seçilebilir" ve "varsayılan açık" iki ayrı bayrak; varsayılan yalnız veli toplantısı yayın/değişiklik/iptalde açık
 - [[0024-ogrenci-anasayfasi-gune-odaklanir]] — öğrenci telefonu okulda teslim eder: öğrenci anasayfası "şimdi"ye değil güne (bugün / sıradaki okul günü) odaklanır; öğretmen "şimdi" kartında kalır
 - [[0016-ayrilmis-ogretmen-kadrodan-turer]] — "çalışan öğretmen" kadro kaydı ve kişinin yaşam durumundan türer, sezonluk görevlendirmeden değil
 - [[0017-kelebek-derslik-ve-gozetmen-turetilir]] — kelebekte derslik ev dersliğinden, gözetmen ders programından türer; yöneticinin eli satırdaki işaretle korunur

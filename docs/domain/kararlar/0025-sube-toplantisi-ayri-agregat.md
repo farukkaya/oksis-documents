@@ -46,6 +46,17 @@ Kayıtların hangi agregat sınırıyla tutulacağı kararlaştırılmalıydı. 
 
 **Orta.** A'ya geçmek göç gerektirmez (tablolar aynı kalır), ama handler'ları ve eşzamanlılık sözleşmesini yeniden yazmayı gerektirir. C'ye geçmek organizasyon tablosunun verisini şubelere kopyalayan bir göç ve rapor/liste uçlarının yeniden yazılmasını gerektirir. Notu şube agregatına katmak teknik olarak ucuzdur, ama gizlilik sınırını kaldırdığı için güvenlik incelemesinden yeniden geçmelidir.
 
+## Uygulama durumu (2026-10-22, oksis-api 02fbcdc1)
+
+Kodda gerçekleşti; `accepted` durumu kodla uyumlu.
+
+- Organizasyon (`ParentMeeting`), şube toplantısı (`ParentMeetingSection`) ve görüşme notu (`ParentMeetingNote`) üç ayrı köktür; organizasyondan şubeye navigasyon yoktur. Davetli, yanıt ve fiili katılım şubenin çocuklarıdır.
+- Organizasyon durumu yalnız `Draft`/`Published`'dır; tamamlandı/iptal özeti şubelerden türetilir.
+- Yanıt yazımı filtreli yükleme yapar (yalnız o velinin satırları); "fiili veri var mı" bilgisi erteleme kuralına handler sorgusundan parametre olarak gelir.
+- Not okuma kapısı tek sınıfta yazılıdır; not metnini okuyan tipler mimari testle sınırlıdır.
+- **Sapma:** "Organizasyonu yayınlamak … bir uygulama servisidir" ifadesi için ayrı bir servis yok; işi yayın handler'ı tek kayıtta yapıyor (domain yorumu hâlâ var olmayan `ParentMeetingPublishService`'e atıf yapıyor).
+- **Ek (kararda yok):** şube satırı "son etkinlik" iziyle çocuk satır ve not yazımlarının eşzamanlılık koruyucusu yapıldı; ayrı kökteki not yazımı da şubeye iz bırakır.
+
 ## İlgili
 
 - [[Veli Toplantıları]]
