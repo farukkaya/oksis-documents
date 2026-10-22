@@ -33,8 +33,9 @@ API'de yoğunluk: Clubs, Academics, Exams, Attendance, Homework, Timetable. Tür
 | Bildirim (push, e-posta) şablonları | Duyuru şablonları (okul yazar) |
 | Excel/PDF başlıkları, sütun adları | Kullanıcının yüklediği belgeler |
 | Enum etiketleri (devamsızlık türü, kulüp kategorisi…) | |
-| **Referans (katalog) verisi:** sınıf seviyeleri, sınav türleri, resmî tatiller, nöbet yeri şablonları, yabancı dil adları, roller, izinler, bildirim türleri, sistem ayarı etiketleri | Okulun kendisinin eklediği ya da adını değiştirdiği kayıtlar |
+| **Referans (katalog) verisi:** sınıf seviyeleri, dönem türleri (`AcademicTermType`), not ölçekleri (`GradeScale`), sınav türleri, resmî tatiller, nöbet yeri şablonları, roller, izinler, bildirim türleri, ülke adları, KVKK onay paketi **başlıkları** (hukuki metnin içeriği Türkçe kalır). Sistem ayarı açıklamaları arayüzde gösterilmediği için kapsam dışı | Okulun kendisinin eklediği ya da adını değiştirdiği kayıtlar |
 | Tarih, sayı, saat biçimleri | **Ders adları** ve ders kataloğu (özel isim gibi ele alınır: "Matematik" İngilizce arayüzde de "Matematik") |
+| | **Yabancı dil adları** ve **eğitim programı adları** (Faruk, 2026-10-23: derslerle aynı ad uzayı) |
 | | İl, ilçe, mahalle, okul adları (özel isim) |
 
 Referans verisi DB'de durur; çevirisi **anahtar kolonuyla** çözülür (aşağıda).
@@ -51,13 +52,14 @@ Referans verisi DB'de durur; çevirisi **anahtar kolonuyla** çözülür (aşağ
 
 ### Dil seçimi
 - **Okul varsayılan dili v1'dedir** (Faruk, 2026-10-22): `SchoolSettings.DefaultLanguage` (`tr` | `en`, varsayılan `tr`). Okul yöneticisi ayarlardan değiştirir.
-- `UserAccount.PreferredLanguage` (`tr` | `en` | boş) eklenir. Boşsa okul varsayılanı geçerlidir. Kullanıcı profilden değiştirir.
+- `Account.PreferredLanguage` (`tr` | `en` | boş) eklenir. (Kodda kullanıcı hesabı okul başına tutulan `Account`'tur — `TenantEntity`; tercih de okul başınadır.) Boşsa okul varsayılanı geçerlidir. Kullanıcı profilden değiştirir.
+- API'de istek başına yalnız `CurrentUICulture` değişir; `CurrentCulture` süreç genelinde `tr-TR` kalır (TB-271: Türkçe arama/sıralama bozulmasın).
 - API: `RequestLocalization` kurulur. Kültür sırası: kullanıcının tercihi → okulun varsayılanı → `Accept-Language` (oturum yokken, örn. giriş ekranı) → `tr`. Kültür yalnız istek kapsamında; `DefaultThreadCurrentCulture` değiştirilmez.
 - Arka plan işleri (Hangfire) ve bildirimler istek kültürü **kullanmaz**; metni **alıcının** etkin diline (tercih ?? okul varsayılanı) göre üretir.
 - Okul varsayılanı değişince kullanıcıların açık tercihi korunur; yalnız tercihi boş olanlar etkilenir.
 
 ### oksis-ui
-- Yeni `packages/i18n`: `tr.json`, `en.json` (ad alanı = modül), tipli anahtar üretimi, ortak tarih/sayı biçimleyicileri (`Intl`).
+- Yeni `packages/i18n`: `tr.json`, `en.json` (ad alanı = modül), tipli anahtar üretimi, ortak tarih/sayı biçimleyicileri. Kod Hermes yüzünden `Intl`'den bilinçli kaçınıyor (`tr-date.ts`, `tr-number.ts`); biçimleyiciler bu kalıbı `en` için genişletir, `Intl` ancak 0. dilim ölçümü Hermes'te güvenilir bulursa kullanılır.
 - Web: `next-intl` (App Router, URL'de dil öneki **yok**; dil kullanıcı tercihinden ve çerezden). Mobil: `i18next` + `react-i18next` + `expo-localization`.
 - Anahtar biçimi: `<modül>.<ekran>.<öğe>` (örn. `attendance.roster.saveButton`).
 - ESLint kuralı: JSX'te sabit metin yasak (göç biten modülde açılır).
@@ -70,18 +72,19 @@ Referans verisi DB'de durur; çevirisi **anahtar kolonuyla** çözülür (aşağ
 - Enum etiketleri: API kod döner, etiketi istemci çevirir (`ClubLabels` gibi sunucu etiketleri kaldırılır).
 - **Referans verisi: anahtar kolonu, tek yöntem** (Faruk, 2026-10-22; karma ve çeviri tablosu reddedildi).
   - Çeviri gereken her katalog tablosuna `NameKey` (gerekirse `DescriptionKey`) eklenir; değeri arayüz anahtarlarıyla aynı dosyalarda çevrilir. Türkçe `Name` kolonu kalır (Türkçe kaynak metin ve geriye uyum).
-  - Gösterim: `NameKey` doluysa etkin dilde çeviri, boşsa `Name` olduğu gibi.
+  - Gösterim: `NameKey` doluysa etkin dilde çeviri, boşsa `Name` olduğu gibi. Çözümleme **sunucuda** yapılır; API çevrilmiş adı döner.
+  - Sınav türü: çekirdekten gelen satırın adı zaten değiştirilemez (`ExamType.MasterSourced.Immutable`), `NameKey` boşalmaz. Nöbet yeri: `DutyLocation.Update` ad değişince boşaltır.
   - Okula kopyalanan kayıtlar (örn. sınav türü) `NameKey`'i taşır. Okul adı değiştirirse `NameKey` boşaltılır; kayıt artık okulun içeriğidir, çevrilmez. Okulun sıfırdan eklediği kayıtta `NameKey` hiç olmaz.
-  - **Ders kataloğu ve dersler `NameKey` almaz.** `SubjectBranch` (branş adları) da derslerle aynı gerekçeyle çevrilmez — derslerle aynı ad uzayını paylaşıyor.
+  - **Ders kataloğu ve dersler `NameKey` almaz.** Branş adları (`MasterBranch`, okulun `Branch` kaydı) da derslerle aynı gerekçeyle çevrilmez (Faruk, 2026-10-23). `SubjectBranch` ad taşımayan bağlantı tablosudur.
   - Bedel (kabul edildi): platforma yeni referans kaydı eklemek (örn. yeni resmî tatil) kod değişikliği ve dağıtım ister, çünkü anahtarın çevirisi dosyadadır.
 
 ### Çeviri yönetimi (ayrı birim)
-- **Tolgee, self-hosted, ücretsiz sürüm** (Faruk, 2026-10-23: lisans ücreti ödenmez). oksis.net altında, Docker + PostgreSQL. Kaynak dil `tr`, hedef `en`.
+- **Tolgee, self-hosted, ücretsiz sürüm** (Faruk, 2026-10-23: lisans ücreti ödenmez). **Oracle test sunucusunda**, `ceviri.oksis.net`, önünde Cloudflare Access; Docker + PostgreSQL. Kaynak dil `tr`, hedef `en`.
 - Ücretsiz sürüm sınırları bağlayıcıdır: **en çok 10 kullanıcı**; Enterprise (`ee/`) özellikleri (SSO, ayrıntılı yetki vb.) kullanılmaz ve bunlara bağımlı akış tasarlanmaz. Sınır aşılacaksa önce Faruk'a sorulur (alternatif: Weblate, GPL, sınırsız).
 - Güvenlik: `TOLGEE_AUTHENTICATION_ENABLED` açık olmadan internete açılmaz; yönetici hesabı ve API anahtarları gizli değişkenlerde durur.
 - Tolgee çalışma anı bağımlılığı değildir: düşerse yalnız çeviri düzenleme durur, OKSİS etkilenmez. Çeviriler her zaman depodaki JSON/kaynak dosyalarıdır; Tolgee bırakılırsa dosyalar kalır.
 - Akış: geliştirici yeni anahtarı `tr` ile koda yazar → CI anahtarları Tolgee'ye yükler → çeviri Tolgee'de yapılır → CI `en.json`/kaynakları dışa aktarıp PR açar.
-- MEB terimleri için Tolgee sözlüğü (glossary): devamsızlık, şube, nöbet, karne, rehberlik vb. `oksis-education-expert` onaylar.
+- Terim sözlüğü: [[i18n-terim-sozlugu]] (onaylı, 2026-10-23; en-US). Tolgee glossary'sine aktarılır; ücretsiz sürüm glossary desteklemiyorsa sözlük depoda bağlayıcı kalır.
 - Eksik çeviri: `tr`'ye düşer (fallback), CI eksik anahtar raporu üretir; üretim dağıtımı eksik `en` anahtarında **uyarır, durdurmaz**.
 
 ## Değerlendirme
@@ -116,7 +119,8 @@ Göç sırasında yeni yazılan her kod baştan anahtarla yazılır (zemin bitti
    - **Mevcut metinlerin tamamı** modül göçü sırasında Claude tarafından çevrilir. Terimler için önce bir İngilizce terim sözlüğü (MEB terimleri: şube, devamsızlık, karne, nöbet, rehberlik…) çıkarılır, `oksis-education-expert` denetler, Faruk onaylar; toplu çeviri bu sözlüğe bağlı yapılır.
    - **İleride eklenen metinler** insan çevirmen tarafından çevrilir. Geliştirici yeni anahtarı yalnız `tr` ile ekler; `en` çevirmen doldurana kadar `tr`'ye düşer (fallback) ve CI eksik anahtar raporunda görünür.
 3. ~~Okul varsayılan dili~~ → **v1'de var** (2026-10-22).
-4. ~~Referans verisi~~ → **anahtar kolonu, tek yöntem; dersler çevrilmez** (2026-10-22).
+4. ~~Referans verisi~~ → **anahtar kolonu, tek yöntem; dersler çevrilmez** (2026-10-22). Okul adı değiştirip sonra şablon adına geri dönerse anahtar geri yazılmaz (2026-10-23).
+5. ~~Kütüphaneler~~ → onaylı (2026-10-23): `next-intl`, `i18next`, `react-i18next`, `expo-localization`, `Microsoft.Extensions.Localization`, `@tolgee/cli`; `Intl.PluralRules` dolgusu yalnız 0. dilim Hermes'te eksik bulursa.
 
 ## Geri alma maliyeti
 
