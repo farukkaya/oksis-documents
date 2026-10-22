@@ -25,8 +25,7 @@ Modülün karakteri üç ilkeye dayanır: **sorumlu dondurulmaz** (yetki her ist
 - [[Öğrenci Kaydı]] — davetli kümesinin öğrenci ekseni (aktif ve dondurulmuş kayıt)
 - [[Veli-Öğrenci İlişkisi]] — davetli kümesinin veli ekseni; yalnız bilgi görme yetkili, iptal edilmemiş, geçerlilik aralığındaki bağ
 - [[Kişi]] — veli, öğrenci, öğretmen ve aktör hep kişi kimliğidir; çağıranın kimliği oturumdan çözülür
-- [[Rol Ataması]] — "notu yazan öğretmen" okuma kapısı aktif öğretmen rolünü arar
-- [[Okul Ayarları]] — dört ayar: sabah hatırlatma saati (05:00–12:00, varsayılan 08:00), "başlıyor" haberi (varsayılan kapalı), "yanıt bekleniyor" çağrısı (varsayılan açık), not saklama süresi (0–10 yıl, varsayılan 2). Aralıklar modülün politika sınıfındadır; diğer süreler (3 gün otomatik kapanış, 7 gün düzeltme penceresi, 2 gün önce çağrı) sistem sabitidir
+- [[Okul Ayarları]] — dört ayar: sabah hatırlatma saati (05:00–12:00, varsayılan 08:00), "başlıyor" haberi (varsayılan kapalı), "yanıt bekleniyor" çağrısı (varsayılan açık), not saklama süresi (3–10 yıl, varsayılan 3; sayaç sezon arşivinden). Aralıklar modülün politika sınıfındadır; diğer süreler (3 gün otomatik kapanış, 7 gün düzeltme penceresi, 2 gün önce çağrı) sistem sabitidir
 - [[Okul]] — okulun saat dilimi ve günü; bütün zaman kararları buradan
 - [[İzin]] — üç anahtar: okuma, yazma (katılım, not, tamamlama), yönetme (planlama, erteleme, iptal, veli adına yanıt, rapor, ayarlar)
 - [[Bildirim]] / [[Bildirim Türü]] — yedi tür; ayrı "Veli toplantısı" grubu
@@ -108,7 +107,7 @@ Okur: Sınıflar ve Şubeler (`ClassRoom.HomeroomTeacherId`, mevcut), Kullanıc�
 
 ## Açık Sorular
 
-- **Sezon ölçütü üç farklı:** idare yazmaları sezon "aktif değilse", saha uçları (katılım, not, tamamlama) yalnız arşiv damgası varsa, veli yanıtı yalnız "arşivlendi" durumundaysa reddediyor. Bilinçli mi?
+- Yanıtlandı (2026-10-22): sezon ölçütü tektir (aktif değilse bütün yazmalar reddedilir); not saklama alt sınırı 3 yıldır; öğretmenin not okuma kapısı sezondan bağımsızdır, okuldan ayrılınca biter.
 - **İptal gerekçesi ve işlem kaydı okunmuyor:** ikisi de yazılıyor, hiçbir uç döndürmüyor (bkz. [[Şube Toplantısı]]).
 - **"Hiçbir modül bu modüle bağımlı değildir" artık tam doğru değil:** okul ayarlarının domain sınıfı ayar aralıklarını bu modülün politika sınıfından okuyor; Bildirimler modülünün olay eşlemesi yedi türü ve şube toplantısı kaynak tipini biliyor. Bağımlılık soyutlama üzerinden mi kalmalı, yoksa aralıklar okul ayarlarına mı taşınmalı?
 - **Eski el yazısı özetle iki çelişki** (yukarıdaki planlama bölümü): (1) "Tarih ya da saat değişince yanıtlar sıfırlanır" — kodda yalnız tarih ve **başlangıç** saati sıfırlar, yalnız bitiş saati değişikliği yanıtları korur. (2) Kararlar "(proposed)" yazıyor; üç kararın frontmatter'ı zaten `accepted`.

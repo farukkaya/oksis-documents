@@ -30,8 +30,8 @@ Boş → ilk kayıt (sürüm 1) → yeni sürümler → imha.
 
 ## Kurallar
 
-- **Yazma penceresi fiili katılımla aynıdır:** [[Şube Toplantısı]] `Started` ya da `Completed` + 7 gün. Arşivlenmiş sezonda kapalıdır. Öğrenci şubenin aktif davetli ağacında olmalıdır.
-- **Okuma kapısı** (tek yerde yazılır): idare (yönetme izni), şubenin **güncel** rehber öğretmeni ve notun herhangi bir sürümünü yazmış, hâlâ bu okulda çalışan öğretmen (görevi süren öğretmen profili, aktif kişi, güncel sezonda aktif öğretmen rolü, yazma izni). Yazan okuldan ayrılınca erişimi biter. Eski rehber, başka öğretmen ve veli kapsam dışıdır (404). Taslak şubede not yoktur. Davetli listesinden düşmüş öğrencinin eski notu okunabilir kalır.
+- **Yazma penceresi fiili katılımla aynıdır:** [[Şube Toplantısı]] `Started` ya da `Completed` + 7 gün. Sezon aktif değilse (hazırlık ya da arşiv) kapalıdır (`SeasonArchived`). Öğrenci şubenin aktif davetli ağacında olmalıdır.
+- **Okuma kapısı** (tek yerde yazılır): idare (yönetme izni), şubenin **güncel** rehber öğretmeni ve notun herhangi bir sürümünü yazmış, yazma izni olan öğretmen. İki öğretmen yolu da **sezondan bağımsızdır** ve aynı kapıdan geçer: bu okulda görevi süren öğretmen profili ve aktif kişi. Sezon geçişi (devirle ya da devirsiz) ve iki sezon arasındaki boşluk erişimi kesmez; okuldan ayrılan rehber de yazan da erişimini kaybeder. Eski rehber, başka öğretmen ve veli kapsam dışıdır (404). Taslak şubede not yoktur. Davetli listesinden düşmüş öğrencinin eski notu okunabilir kalır.
 - **Yazma yalnız idare ve güncel rehberdir.** Yazan ama artık rehber olmayan öğretmen notu okur, yazamaz (403).
 - **Platform hesabı ve öğrenci** modülün hiçbir iznini almaz; veli okuma iznini alır ama not kapısından geçemez.
 - **Her okuma izlenir** — not henüz yokken boş paneli açmak da. İlk kayıt "oluşturma", sonraki sürüm "güncelleme", süreli silme "imha" (sistem aktörlü) olarak yazılır. İz metin, özet ya da karakter sayısı taşımaz (şema testiyle kilitli), genel denetim loguna gitmez, okul kapsamlı tabloda kalır ve not imha edilse de durur. İzi yalnız idare listeler; gün süzgeci okulun yerel gününe göredir.
@@ -41,7 +41,7 @@ Boş → ilk kayıt (sürüm 1) → yeni sürümler → imha.
 - **Metin hiçbir olaya, bildirime, rapora, dışa aktarıma, loga ya da hata mesajına girmez.** Metni okuyabilen tipler mimari testle sınırlıdır (not okuma, not kaydetme, imha işi); rapor ve listeler yalnız "notu var" bayrağını alır.
 - **Ayrı köktür** ([[0025-sube-toplantisi-ayri-agregat]]): şube toplantısını yükleyen liste, rapor ve bildirim yolları not tablosuna dokunmaz. Yine de not yazımı şube satırına iz bırakır; eşzamanlı erteleme, iptal ya da tamamlama ile çakışma 409 olur.
 - **Erteleme kapısı:** dolu bir not "fiili veri" sayılır; başlamış toplantının tarihi değiştirilemez.
-- **Süreli imha:** sezon arşivlendikten sonra okul ayarındaki saklama süresi (varsayılan 2 yıl, 0–10 yıl) dolunca gece işi metni siler. Okul başına tek bir KVKK silme olayı üretilir; olayda yalnız sayılar ve okul vardır, öğrenci ya da kişi kimliği yoktur.
+- **Süreli imha:** sezon arşivlendikten sonra okul ayarındaki saklama süresi (varsayılan 3 yıl, 3–10 yıl; alt sınır gece işinde de uygulanır, eski küçük değerler migration ile 3'e çekildi) dolunca gece işi metni siler. Okul başına tek bir KVKK silme olayı üretilir; olayda yalnız sayılar ve okul vardır, öğrenci ya da kişi kimliği yoktur.
 
 ## İlişkiler
 
@@ -49,7 +49,6 @@ Boş → ilk kayıt (sürüm 1) → yeni sürümler → imha.
 - [[Kişi]] — öğrenci, yazan ve okuyan; hepsi kişi kimliği
 - [[Sezon]] — saklama sayacı sezonun arşivlendiği andan başlar
 - [[Okul Ayarları]] — saklama süresi
-- [[Rol Ataması]] — "yazan öğretmen" kapısı güncel sezondaki aktif öğretmen rolünü arar
 
 ## Geçtiği modüller
 
@@ -63,5 +62,4 @@ Boş → ilk kayıt (sürüm 1) → yeni sürümler → imha.
 
 ## Açık Sorular
 
-- Saklama süresi 0 yıl seçilebiliyor; bu durumda notlar sezonun arşivlendiği gecenin işinde silinir. Bilinçli bir alt sınır mı?
-- "Yazan öğretmen" kapısı güncel sezonda aktif öğretmen rolü arıyor; sezon geçişinden hemen sonra (yeni sezon güncel, rol ataması henüz yapılmamış) yazan öğretmenin eski notlara erişimi kesiliyor olabilir. Doğrulanmadı.
+- Yanıtlandı (2026-10-22): saklama alt sınırı 3 yıl, sayaç sezon arşivinden başlar (öğrencinin mezuniyetinden değil). Öğretmen okuma kapısı sezondan bağımsızdır.

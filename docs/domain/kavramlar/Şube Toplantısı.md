@@ -51,7 +51,7 @@ Bir [[Veli Toplantısı]]'nın tek bir şubedeki hâli: kendi tarihi, saati, yer
 - **Hatırlatma damgaları plan sürümüne bağlıdır:** sabah hatırlatması, "yanıtınız bekleniyor" çağrısı ve "toplantı başlıyor" haberi sürüm başına bir kez gider; erteleme yeni sürüm doğurduğu için yeniden gidebilir. Sürüm o günün sabah saatinden sonra doğduysa hatırlatma gönderilmeden damgalanır. "Başlıyor" haberi başlangıçtan 30 dakika sonrasına kalmışsa gitmez.
 - **Eşzamanlılık:** şube satırı sürüm damgası taşır. Çocuk satır (yanıt, davetli, işaret) ya da not yazan her istek şubeye bir "son etkinlik" izi bırakır; böylece eşzamanlı erteleme, başlatma, iptal ya da tamamlama ile çakışma 409 olur, eski sürüme sessiz yazım olmaz.
 - **Yalnız eklenen tablolar:** yanıt geçmişi ve işlem kaydı yumuşak silme taşımaz; güncelleme ve silme çağrısı mimari testle yasaktır. Sistem geçişlerinde (başlama, otomatik tamamlama, sezon arşivi) aktör boştur.
-- **Arşivlenmiş sezonda** fiili katılım, not, tamamlama ve veli yanıtı kapalıdır (`SeasonArchived`).
+- **Sezon aktif değilse** (hazırlık ya da arşiv) fiili katılım, not, tamamlama, veli yanıtı ve idarenin veli adına yanıtı kapalıdır (`SeasonArchived`); idare yazmalarıyla aynı ölçüt.
 - **Hata sözleşmesi:** kodlar `ParentMeeting.` önekiyle gelir. Doğrulama, geçmiş an, bitiş-başlangıç ve boş şube listesi 400; kayıt yok, kapsam dışı ve davetli olmayan hedef 404 (varlık sızdırılmaz); kalan her şey (durum, kilit, kapalı pencere, fiili veri, sürüm, önizleme, arşiv, yinelenen şube) 409.
 
 ## İlişkiler
@@ -82,4 +82,4 @@ Bir [[Veli Toplantısı]]'nın tek bir şubedeki hâli: kendi tarihi, saati, yer
 - **İptal gerekçesi saklanıyor ama hiçbir uç döndürmüyor.** Domain yorumu "yalnız idare DTO'sunda görünür" diyor; idare DTO'larında gerekçe alanı yok. Bilinçli mi, eksik mi?
 - **İşlem kaydını okuyan uç yok.** Yazılıyor ama okuma yolu (idare zaman çizelgesi gibi) bulunamadı.
 - İşlem kaydı sınıf yorumu hem "iptal gerekçesi asla girmez" hem "yalnız iptal satırında" diyor; kod gerekçeyi iptal satırına yazıyor. Yorumdaki çelişki düzeltilmeli.
-- Sezon ölçütü uçlar arasında farklı: idare yazmaları "sezon aktif değil" durumunda, saha uçları (katılım, not, tamamlama) yalnız arşiv damgasında, veli yanıtı yalnız "arşivlendi" durumunda reddediyor. Üç ayrı ölçüt bilinçli mi?
+- Yanıtlandı (2026-10-22): bütün yazma uçları tek ölçütü kullanır, sezon aktif değilse reddeder.
