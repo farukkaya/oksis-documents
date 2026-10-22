@@ -77,6 +77,7 @@ Kodların tek yeri kural denetleyicisidir; sertlik ayrımını çağıran uygula
 | `EX-S04` | Yumuşak | Bir dersliğe tek şubeden öğrenci düştü (karışım olmadı); oturum kapsamında görünür, yayın listesine girmez. |
 | `EX-S05` | Yumuşak · gerekçeyle geçilir | Saati seçilmemiş şube × ders var — hiç dokunulmamış çiftler dahil. |
 | `EX-S06` | Yumuşak · yalnız görünür | Derslikte kapasite aşıldı; kapasitesi girilmemiş derslik aşılmış sayılmaz. |
+| `EX-S10` | Yumuşak · gerekçe yalnız saat MEB'den saparsa | **Planlandı, kodda henüz yok** ([[0028-merkezi-sinav-takvimi-oyss]]). Merkezi (OYSS) satırda `EX-H01`, `EX-H03` ve `EX-H08` bu uyarıya yumuşar; `EX-H05/H06/H10/H11/H12/H13` sert kalır. MEB saatinde uygulayıcı yoksa uygulayan dersin öğretmenidir ve S10 düşer. |
 
 `EX-H02`, `EX-H04`, `EX-H07`, `EX-S02`, `EX-S03` kural denetleyicisinde **hiç yazılmadı** ve numaraları başka kurala verilmez (R47). `EX-H04` (kapasite sert) ve `EX-S03` (gözetmen yük dengesi) bilinçle yazılmayacak; `EX-S02` (öğretmen kendi öğrencisinin dersliğinde gözetmen) kelebekte beklenen durum olduğu için yazılmayacak.
 
@@ -112,6 +113,20 @@ Sekiz tür; "değişti" diyen her bildirim yalnız takvim yayındayken gider —
 - **Derslik müsaitliği, derslik başına ikinci gözetmen, dersliğin sıra × sütun düzeni, şubenin ev dersliğinin zorunlu olması** — bu fazda yapılmayacak; ev dersliği eksikliği için köprü, yöneticinin elle derslik eklemesidir (`TB-120`).
 
 <!-- generated:end -->
+
+## OYSS / merkezi takvim
+
+> Karar: [[0028-merkezi-sinav-takvimi-oyss]] (kabul edildi 2026-10-22) · Plan: [[oyss-gecis-plani]]. **Durum:** tasarım; kodda henüz yok (oksis-api 2026-10-22).
+
+MEB'in 2026-27'de başlattığı Ortak Yazılı Sınav Sistemi'nde (OYSS) sınav günleri merkezîdir. Ders saati öntanımlıdır ve okul müdürlüğü değiştirebilir. Soruları ve puanı MEB / e-Okul tutar. Bu modül bu yüzden içerikten lojistiğe yeniden konumlanır: OKSİS "hangi gün, kaçıncı ders, hangi şube, kim uygular" sorusunu cevaplar.
+
+- **Platform kataloğu:** MEB takvimi bir kez `master` şemasına girer. Yükleyen kullanıcı aynı takvimi doğrulayamaz ([[0022-mufredat-yayimi-iki-kisi-kurali]] ile aynı kural). Katalog yalnız ekleme alır; düzeltme yeni sürümdür.
+- **Okula içe alma:** yönetici önizler ve içe alır. Önizleme eşleşen satırları, eşleşmeyen dersleri ve pencere dışı tarihleri gösterir. İçe alma idempotenttir. Üretilen [[Planlanmış Sınav]] satırı katalog satırına kimlikle bağlıdır ve MEB'in tarih ile saatini kopya olarak taşır.
+- **Kilit:** merkezi satırın tarihi değişmez ve öğretmen gün seçemez. Saati yalnız idare gerekçeyle değiştirir (`:change-central-period`); yayınlanmış takvimde bu, revizyon türü 6 `CentralPeriodChanged` yazar.
+- **Uygulayan:** MEB saatinde o şubede derse giren öğretmendir. O hücrede ders yoksa dersin öğretmeni uygular ve `EX-S10` düşer.
+- **Ülke geneli sınavlar** ayrı bir tür değildir; MEB'in adlandırdığı yazılı penceresine satır olarak bağlanır. Yeni bildirim türü açılmaz.
+- **Mazeret** (`MakeupExam`) Sürüm 2'dedir. Notu [[Notlar]] modülünde girilir.
+- Bu bölüm, "Kapsam dışı" altındaki "okul dışı merkezi sınavlar" maddesini OYSS lojistiği için daraltır. İçerik ve puan kapsam dışı kalır.
 
 ## Notlar
 

@@ -163,6 +163,7 @@ Projeye yeni geldiysen [[Sezon]] ile başla — okulun bütün akademik kayıtla
 - [[0016-ayrilmis-ogretmen-kadrodan-turer]] — "çalışan öğretmen" kadro kaydı ve kişinin yaşam durumundan türer, sezonluk görevlendirmeden değil
 - [[0017-kelebek-derslik-ve-gozetmen-turetilir]] — kelebekte derslik ev dersliğinden, gözetmen ders programından türer; yöneticinin eli satırdaki işaretle korunur
 - [[0018-sinav-kurallari-denetleyicide]] — sınav kuralları tek denetleyicide; geçilemez sert, gerekçeyle geçilen, yalnız görünen
+- [[0028-merkezi-sinav-takvimi-oyss]] — OYSS takvimi platform kataloğundan (iki kişi kuralı) okula önizlemeli/idempotent içe alınır; merkezi satırın tarihi kilitli, saati gerekçeyle değişir, `EX-S10` — uygulama bekliyor (plan: [[oyss-gecis-plani]])
 
 ## Notlar hakkında
 

@@ -23,6 +23,7 @@ OKSİS, Türk özel okulları için çok kiracılı (multi-tenant) bir SaaS okul
 | API'yi elle denemek | `postman/<modul>/` |
 | Bir modülün ihtiyaç / teknik analizi | `ihtiyac-analizleri/<modul>/`, `teknik-analizler/<modul>/` |
 | İnceleme ve durum raporları | `raporlar/` |
+| Onaylı uygulama ve geçiş planları | `plans/` — [[oksis-ortam-ve-hosting-plani]], [[oyss-gecis-plani]] |
 | Açık bulgular, kararlar, engeller | `bulgular/` — Bulgu Kayıt Defteri |
 | Gerçek okul verisiyle seed'siz, sezon boyu yaşayan testler | `saha-testleri/<okul>/` |
 | Devam eden işin geçici belgeleri | `gecici/` |
