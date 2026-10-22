@@ -2,7 +2,7 @@
 aliases: [Users, api/v1/users]
 tags: [domain/people, module]
 status: completed
-last-synced: 2026-09-13 (294ffe6)
+last-synced: "2026-10-17 (422fc9bc + BLG-0017 çalışma kopyası)"
 ---
 
 # Kullanıcılar
@@ -38,7 +38,7 @@ Modül tek kimlik modeli üzerinde çalışır; eski tek satırlık kullanıcı 
 5. **Rol atama** — kişiye sezon bazında sistem rolü verilir. Atayanın seviyesi hedef rolden yüksek olmak zorundadır; kendi yetkisini yükseltme reddedilir. Elle iptal kişinin oturumunu keser; süre dolumu ve yeni atama yalnız izin sürümünü artırır ([[Rol Ataması]]).
 6. **Yaşam döngüsü işlemleri** — askıya alma, yeniden aktive etme, mezun etme, nakil, arşivleme. Her biri gerekçe veya hedef ister ve geçersiz durumda reddedilir.
 7. **Dışa aktarma** — filtrelenmiş kişi listesi dosyaya aktarılır; sonuç kümesi üst sınırı aşarsa iş reddedilir (`USERS_EXPORT_TOO_LARGE`).
-8. **Kendi kaydı** — kişi kendi profilini günceller, rızalarını görür ve geri çeker.
+8. **Kendi kaydı** — kişi kendi fotoğrafını, adını, soyadını ve iletişim bilgilerini günceller; rızalarını görür ve geri çeker. Yazılacak kişi oturumdaki hesap ve açık okuldan çözülür. Ad değişikliği doğum tarihi, cinsiyet, kimlik numarası veya rolü değiştirmez; ad alanlarını göndermeyen eski istemcinin mevcut adı korunur.
 
 ## Arka plan işleri
 
