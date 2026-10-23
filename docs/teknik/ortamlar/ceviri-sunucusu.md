@@ -76,3 +76,9 @@ sudo docker compose start tolgee
 3. `docker-compose.yml` içinde `tolgee/tolgee:<etiket>` değiştir, sonra `sudo docker compose pull tolgee && sudo docker compose up -d tolgee`.
 4. `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8085/api/public/configuration` → 200 (açılış ~1 dk).
 5. Sorun olursa eski etiketi geri yaz; veritabanı göçü geri gitmediyse yedekten dön.
+
+## İnternete açılış (2026-10-23)
+
+- Tünel `oksis-test` → route `ceviri.oksis.net` → `http://tolgee-ceviri:8080` (Faruk ekledi).
+- Cloudflare Access uygulaması `oksis-ceviri` (self-hosted, hedef `ceviri.oksis.net`, politika `test-ekibi`, oturum 24 saat). Girişsiz istek Access girişine 302 ile yönleniyor; Tolgee'nin kendi girişi ikinci katman.
+- CI'ın Tolgee'ye erişimi için ileride Access service token gerekecek (ayrı karar).
