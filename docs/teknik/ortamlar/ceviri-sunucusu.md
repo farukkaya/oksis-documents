@@ -81,4 +81,5 @@ sudo docker compose start tolgee
 
 - Tünel `oksis-test` → route `ceviri.oksis.net` → `http://tolgee-ceviri:8080` (Faruk ekledi).
 - Cloudflare Access uygulaması `oksis-ceviri` (self-hosted, hedef `ceviri.oksis.net`, politika `test-ekibi`, oturum 24 saat). Girişsiz istek Access girişine 302 ile yönleniyor; Tolgee'nin kendi girişi ikinci katman.
-- CI'ın Tolgee'ye erişimi için ileride Access service token gerekecek (ayrı karar).
+- CI erişimi: Access service token `oksis-ceviri-ci` (1 yıl, bitiş 2027-10-23) ve uygulamada ayrı `ceviri-ci-servis` politikası (Service Auth, yalnız bu token). Değerler `oksis-ui` GitHub secret'larında: `CF_ACCESS_CLIENT_ID`, `CF_ACCESS_CLIENT_SECRET`; istekte `CF-Access-Client-Id` / `CF-Access-Client-Secret` başlıklarıyla gider.
+- Tolgee PAK: yerelde macOS anahtar zinciri (servis `oksis-tolgee-pak`); CI için ayrıca GitHub secret olarak eklenecek (Dilim S).
