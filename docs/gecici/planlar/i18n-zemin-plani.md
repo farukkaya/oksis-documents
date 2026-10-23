@@ -272,7 +272,13 @@ Dal adları (hepsi `dev`'den): `feature/i18n-zemin-<dilim>-<kısa>` (örn. `feat
 
 - **Sorumlu:** `oksis-education-expert` taslak + denetim, Faruk onay.
 - **Amaç:** MEB terimlerinin İngilizce karşılıkları (devamsızlık, şube, nöbet, karne, rehberlik, yazılı/sınav, sözlü, performans görevi, müdür yardımcısı, sınıf öğretmeni, branş…).
-- **Durum (2026-10-23):** taslak yazıldı — `teknik/kurallar/ortak/i18n-terim-sozlugu.md` (status: draft; 21 belirsiz terim S-1…S-21, 4 belge–kod çelişkisi). Kalan iş Faruk onayı ve Tolgee'ye aktarım. Tolgee sözlüğü ücretsiz sürümde yoksa (Dilim 0.3) tek kaynak bu belge olur, Tolgee'de anahtar açıklamalarıyla desteklenir.
+- **Durum (2026-10-23):** sözlük onaylandı (`teknik/kurallar/ortak/i18n-terim-sozlugu.md`, status: approved). Araçlar `oksis-ui` dalı `feature/i18n-dilim-s`'te (74a33b75, 8cee42df):
+  - `packages/i18n/tools/i18n-cli.mjs`: `check` (en'i sözlüğe karşı tarar, uyarı; sözlükten 496 terim + §16 kısaltmaları), `describe` (Tolgee anahtar açıklaması, elle yazılanı korur), `align` (Tolgee'nin alfabetik sırasını tr sırasına çeker). Sözlük her koşuda bu depodan okunur (yerel kopya ya da GitHub raw); kopyası tutulmaz. 16 birim testi.
+  - `.tolgeerc.json` + `.github/workflows/ceviri.yml`: dev'e `tr` değişikliği → `tolgee push` + `describe`; haftalık/elle → `tolgee pull` + `align` + `check` → dev'e PR. Access service token başlıklarıyla.
+  - Tolgee'ye ilk yükleme yapıldı (SSH tüneliyle): `common` ad alanı tr + en (en `KEEP` ile tek seferlik tohum — tohumlanmasaydı ilk çekme yereldeki en'i boşaltırdı); pull + align sonrası yerel fark sıfır; açıklamalar yazıldı, ikinci koşu 0 değişiklik.
+  - **Bulgu:** `common:actions.cancel` tr "İptal"; sözlükte düğme "Vazgeç" → Cancel, "İptal" → Canceled (durum). Modül göçünde düğme metni "Vazgeç" olmalı.
+  - **Açık:** depoda "Actions'ın PR açması" izni kapalı (`can_approve_pull_request_reviews: false`); açılmazsa çekme işi dalı gönderir, PR elle açılır.
+  - **Bilinen risk:** web next-intl ICU (`{ad}`), mobil i18next varsayılanı `{{ad}}` yer tutucu kullanır; ortak dosyada yer tutuculu ilk anahtardan önce mobil ICU'ya geçmeli (A4/modül göçü).
 - **Not:** Zemini engellemez; modül göçünün (madde 2) ön şartıdır. OYSS işindeki "Yazılı"/"Sınav" sözlük kararıyla bağlantılı.
 
 ---
