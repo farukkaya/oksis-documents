@@ -63,6 +63,23 @@ Kodda bugünkü durum (oksis-api, 2026-10-22):
 | K5 | Adlandırma kuralı: müfredat "1. yazılı" diyorsa OKSİS de "1. yazılı" der; ayrı sınav türü yok. |
 | K6 | Entegrasyon raporunun açık konuları 1, 2, 3, 5 ve 6 önerildiği gibi kabul edildi: tarih ve saat kilitli, platform kataloğu, `MakeupExam`, ders saati öntanımlı, soru bazlı puan yok. |
 
+### Uygulamada netleşenler (2026-10-23)
+
+Kod incelemesi ve uçtan uca testlerde verilen kararlar. Yukarıdaki maddeleri daraltır ya da açar; çelişkide bu bölüm geçerlidir.
+
+| No | Konu | Karar |
+|---|---|---|
+| U1 | İki kişi kuralı (madde 2) | Doğrulayamayanlar yükleyen ve taslağı **düzelten herkestir**, yalnız son düzelten değil (`editor_ids`). Kural `CentralExamCalendar.CanBeVerifiedBy` içinde yaşar. Platform detayı aynı kuraldan `canVerify` döner. |
+| U2 | EX-S10 kapsamı (madde 5) | `EX-H01`, ancak günün sınavlarının **tamamı merkeziyse** `EX-S10`'a yumuşar. Gün yerel sınav da içeriyorsa sert kalır, çünkü okul yerel sınavı kaydırabilir. Yerleştirme ve yayın aynı kuralı kullanır. Sert ret `409 exams.rule-violation` ve `ruleCodes` ile döner. |
+| U3 | İzinli saatler (madde 4) | Katalog satırı `AllowedPeriods` taşır (ör. 2 ve 4). İzinli küme içindeki değişiklik gerekçe istemez. Küme dışına çıkmak 15–500 karakter gerekçe ister ve `isPeriodOverridden` olarak işaretlenir. |
+| U4 | Ders saati numarası | Merkezi satırdaki saat **ders ordinalidir**, teneffüsler sayılmaz. Etiket ve saat aralığı zil şablonunun yalnız ders slotlarından üretilir. |
+| U5 | Bildirim (madde 8) | Yeni tür açılmaz, gövde ayrımı yapılır. Uygulayıcı değişimi yalnız eski ve yeni uygulayıcıya gider. Yayındaki pencereye yeni eklenen merkezi satırlar şube başına tek özet olarak gider. Saat değişimi var olan "sınav taşındı" türünü kullanır. |
+| U6 | Yayındaki pencerede yeniden içe alma | MEB yeni sürümle tarih ya da saat değiştirirse her satır için revizyon (`CentralRealigned`) yazılır. İşlem başına tek sürüm artışı olur ve bildirim gider. |
+| U7 | Uygulayıcının yeniden çözülmesi | Gece taraması, ders programı değişince merkezi satırın uygulayıcısını yeniden çözer. Satırı "taşındı" yapmaz. Kilitli penceredeki ve tarihi geçmiş satırlara dokunmaz, böylece fiilî uygulayıcı korunur. Sınavın yapıldığı gün bu korumanın dışında kalır: aynı gün yapılan bir program değişikliği uygulayıcıyı hâlâ değiştirebilir. Bu bilinçli olarak kabul edildi. |
+| U8 | CSV yükleme | Dönem dışına düşen tarih reddedilmez, uyarıyla yüklenir. Hatalı satırlar takvime girmez. Yükleme sorunlarının ilk 200'ü toplam sayıyla takvimde saklanır ve doğrulayana gösterilir. |
+| U9 | Takvimi atma | `Draft` ve `Verified` takvim atılabilir. `Published` ve `Superseded` atılamaz. |
+| U10 | Müfredat aktivasyonu | Aynı dersin ortak ve seçmeli MEB satırları snapshot'ta tek satırdır. Seçmeli payı `elective_weekly_hours` ile ayrıca tutulur. Kota ekranı dersi parçalarına ayırarak gösterir, haftalık saat ekranları toplamı gösterir. |
+
 ## Agregat sınırları
 
 | Agregat | Kök | Kiracı | İçerik | Bağ |
