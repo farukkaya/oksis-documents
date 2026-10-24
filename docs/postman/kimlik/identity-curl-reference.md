@@ -166,6 +166,47 @@ curl --location --request DELETE '{{API_SERVICE}}/users/{{userId}}' \
 
 ---
 
+## Dil (i18n)
+
+> ADR 0029. Etkin dil sırası: hesabın tercihi → okulun varsayılan dili → `Accept-Language` → `tr`; yalnız `tr` | `en`. Okul varsayılanı her zaman dolu olduğundan `Accept-Language` pratikte yalnız oturumsuz isteklerde (giriş, parola sıfırlama) belirleyicidir. Sunucu yalnız metin dilini değiştirir; arama, sıralama ve biçim `tr-TR` kalır. `en` çevirisi olmayan metin `tr`'ye düşer; `code` alanı dile göre değişmez.
+
+### 14. Get My Context (dil alanları)
+```bash
+curl --location --request GET '{{API_SERVICE}}/auth/me/context' \
+  --header 'Authorization: Bearer {{accessToken}}' \
+  --header 'Accept-Language: en'
+```
+Yanıtta `preferredLanguage` (null = tercih yok), `schoolDefaultLanguage`, `effectiveLanguage`.
+
+### 15. Set / Clear My Language
+```bash
+curl --location --request PUT '{{API_SERVICE}}/users/self/language' \
+  --header 'Authorization: Bearer {{accessToken}}' \
+  --header 'Content-Type: application/json' \
+  --data '{ "language": "en" }'
+```
+204. `{ "language": null }` tercihi temizler (etkin dil okul varsayılanından gelir). Geçersiz değer 400.
+
+### 16. Set School Default Language
+```bash
+curl --location --request PUT '{{API_SERVICE}}/school-settings/default-language' \
+  --header 'Authorization: Bearer {{accessToken}}' \
+  --header 'Content-Type: application/json' \
+  --data '{ "language": "en" }'
+```
+204. İzin `school-settings.update-basic`, yoksa 403. Öğretim dili (`academic-structure` → `educationLanguage`) ile ilgisizdir.
+
+### 17. Oturumsuz istekte dil (Accept-Language)
+```bash
+curl --location --request POST '{{API_SERVICE}}/auth/account/login' \
+  --header 'Content-Type: application/json' \
+  --header 'Accept-Language: en-US,en;q=0.9,tr;q=0.8' \
+  --data '{ "identifier": "ornek@oksis.local", "password": "yanlis-parola" }'
+```
+Hata cümlesi `en` çevirisi varsa İngilizce, yoksa Türkçe döner. Hatalı deneme kilit sayacını artırır.
+
+---
+
 ## HTTP status code haritası
 
 | Durum | Kod | Tetikleyici |

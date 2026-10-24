@@ -330,6 +330,98 @@
           }
         }
       ]
+    },
+    {
+      "name": "Dil (i18n)",
+      "description": "Dil uçları (ADR 0029). Etkin dil sırası: hesabın tercihi → okulun varsayılan dili → `Accept-Language` → `tr`; yalnız `tr` | `en`. Okul varsayılanı her zaman dolu olduğundan `Accept-Language` pratikte yalnız oturumsuz isteklerde (giriş, parola sıfırlama) belirleyicidir. Sunucu yalnız metin dilini değiştirir; arama, sıralama ve biçim `tr-TR` kalır. `en` çevirisi olmayan metin `tr`'ye düşer.",
+      "item": [
+        {
+          "name": "Get My Context (dil alanları)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept-Language", "value": "en" }],
+            "url": {
+              "raw": "{{API_SERVICE}}/auth/me/context",
+              "host": ["{{API_SERVICE}}"],
+              "path": ["auth", "me", "context"]
+            },
+            "description": "Yanıtta `preferredLanguage` (null = tercih yok), `schoolDefaultLanguage` ve `effectiveLanguage`. İstemci açılışta etkin dili buradan alır."
+          }
+        },
+        {
+          "name": "Set My Language (en)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language\": \"en\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{API_SERVICE}}/users/self/language",
+              "host": ["{{API_SERVICE}}"],
+              "path": ["users", "self", "language"]
+            },
+            "description": "Kendi tercihini yazar; 204. Yalnız oturumdaki hesap değişir. Geçersiz değer 400."
+          }
+        },
+        {
+          "name": "Clear My Language (okul varsayılanına dön)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language\": null\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{API_SERVICE}}/users/self/language",
+              "host": ["{{API_SERVICE}}"],
+              "path": ["users", "self", "language"]
+            },
+            "description": "`null` tercihi temizler; etkin dil okulun varsayılanından gelir. 204."
+          }
+        },
+        {
+          "name": "Set School Default Language",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language\": \"en\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{API_SERVICE}}/school-settings/default-language",
+              "host": ["{{API_SERVICE}}"],
+              "path": ["school-settings", "default-language"]
+            },
+            "description": "Okulun varsayılan arayüz dili (`tr` | `en`, zorunlu); tercihi boş kullanıcıların etkin dilidir. İzin `school-settings.update-basic`, yoksa 403. Öğretim dili (`academic-structure` → `educationLanguage`) ile ilgisizdir."
+          }
+        },
+        {
+          "name": "Account Login (Accept-Language: en, hatalı parola)",
+          "auth": { "type": "noauth" },
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Accept-Language", "value": "en-US,en;q=0.9,tr;q=0.8" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"ornek@oksis.local\",\n  \"password\": \"yanlis-parola\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{API_SERVICE}}/auth/account/login",
+              "host": ["{{API_SERVICE}}"],
+              "path": ["auth", "account", "login"]
+            },
+            "description": "Oturumsuz istekte hata cümlesinin dili `Accept-Language`'dan seçilir; `en` çevirisi yoksa `tr` cümle döner. `code` alanı dile göre değişmez; istemci mantığı koda bağlanır. Hatalı deneme kilit sayacını artırır."
+          }
+        }
+      ]
     }
   ]
 }
