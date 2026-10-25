@@ -2,8 +2,8 @@
 
 > [!info] Belge bilgisi
 > **Amaç:** `oksis-api`'de kullanıcıya giden metnin (hata, bildirim, referans verisi adı) nasıl yazıldığını ve iki dile (`tr` + `en`) nasıl hazırlandığını tanımlamak.
-> **Son doğrulama:** 2026-10-25. `oksis-api` dev `3d889c70`.
-> **Kaynak:** ADR [[0029-cok-dil-altyapisi-ingilizce]], `src/Oksis.Infrastructure/Localization/`, `src/Oksis.Api/Localization/`, `src/Oksis.Api/Errors/ErrorMessageCatalog.cs`, `src/Oksis.Application/Common/Localization/`, `src/Oksis.Application/Modules/Notifications/Abstractions/`, `src/Oksis.Infrastructure/Persistence/Seed/MasterData/ReferenceKeys.cs`.
+> **Son doğrulama:** 2026-10-25. `oksis-api` dev `006a6503`.
+> **Kaynak:** ADR [[0029-cok-dil-altyapisi-ingilizce]], `src/Oksis.Infrastructure/Localization/`, `src/Oksis.Api/Localization/`, `src/Oksis.Api/Errors/ErrorMessageCatalog.cs`, `src/Oksis.Application/Common/Localization/`, `src/Oksis.Application/Modules/Notifications/Abstractions/`, `src/Oksis.Infrastructure/Persistence/Seed/MasterData/ReferenceKeys.cs`, `src/Oksis.Application/Common/Validation/RuleBuilderMessageKeyExtensions.cs`, `src/Oksis.Infrastructure/Email/EmailText.cs`.
 
 İlgili notlar: [[logging-error-rules]] §8.5 · [[i18n-terim-sozlugu]] · frontend karşılığı [[teknik/kurallar/frontend/metin-ve-ceviri|metin-ve-ceviri (frontend)]]
 
@@ -21,7 +21,7 @@
 
 - Yer: `src/Oksis.Infrastructure/Localization/Resources/<ad-alanı>/{tr,en}.json`, derlemeye gömülü (`EmbeddedResource`).
 - İçerik düz `anahtar → metin` nesnesidir (anahtarlar noktalı, iç içe değil).
-- Ad alanları: `errors`, `notifications`, `common`, `reference`, `validation`, `email`, `excel`. Bugün `validation`, `email`, `excel` boştur; modül göçünde dolar.
+- Ad alanları: `errors`, `notifications`, `common`, `reference`, `validation`, `email`, `excel`. `excel` bugün boştur; `validation` ve `email` kimlik göçüyle (K1) doldu, diğer modüllerin göçünde büyür.
 - Okuma `IStringLocalizerFactory` (`JsonStringLocalizerFactory`) ile: `Create("<ad-alanı>", string.Empty)`. `IStringLocalizer<T>` kayıtlı değildir, kullanılmaz.
 - Düşüş zinciri: etkin UI dili → `tr` → nötr cümle (`common`) + uyarı günlüğü. Bozuk çeviri kalıbı (`{` hatası) bir sonraki dile düşer; günlüğe yalnız anahtar, ad alanı ve dil yazılır, parametre yazılmaz.
 - Parametreler `string.Format` sırasıyla (`{0}`, `{1}`) yazılır. `en` ile `tr`'nin yer tutucuları aynı olmalı (bekçi testi var).
@@ -39,6 +39,12 @@
 - Yeni anahtar aynı commit'te `errors/tr.json`'a eklenir. Bekçi testi (`ErrorMessageCatalogTests`) kodda kullanılan her anahtarın `tr` karşılığını arar.
 - `code` dile göre değişmez; istemci mantığı koda bağlanır.
 
+### 4.1 Doğrulama iletileri
+
+- FluentValidation kuralı Türkçe cümle değil anahtar yazar: `.WithMessageKey("<modül>.validation.<kebab-anahtar>")`. Anahtar `validation` ad alanındadır.
+- `ExceptionHandlingMiddleware`, `ValidationException` iletilerini API sınırında istek dilinde cümleye çevirir (`ErrorMessageCatalog.Humanize`). Anahtar `validation` kalıbına uymayan eski Türkçe ileti olduğu gibi geçer; göçü bitmemiş modüller bozulmaz.
+- `WithMessageKey` bugün parametre taşımaz. Parametreli ileti (ör. "en çok {0} karakter") gerektiğinde önerilen yol: `ValidationException`'a mevcut `Errors` sözlüğünü bozmadan ayrı bir argüman sözlüğü (alan → anahtar → argümanlar) eklemek ve sınırda `string.Format` sırasıyla çözmek. Argüman kişisel veri taşımaz (sayı, sınır).
+
 ## 5. Bildirimler
 
 - Yeni bildirim `NotificationMessage.FromKeys(titleKey, bodyKey, args)` ile kurulur ve `INotificationEnqueuer.EnqueueLocalized` ile kuyruğa girer. Metin, dağıtım anında her alıcının kendi dilinde üretilir. Alıcılar dile göre gruplanır.
@@ -46,6 +52,13 @@
 - **Kuyruk yüküne kişisel veri girmez.** `args` Hangfire deposunda düz metin durur. Ad, telefon ya da TC kimlik no taşınmaz; kimlik taşınır, ad işte çözülür.
 - Uygulama içi bildirim metni üretildiği dilde kalır. Kullanıcı sonradan dil değiştirirse eski bildirimler eski dilde görünür (kabul edildi).
 - Hazır metinli eski biçim (`NotificationMessage(Kind, Title, Body, …)`) göç bitene kadar çalışır.
+
+### 5.1 E-posta
+
+- E-posta metni `email` ad alanından `EmailText` ile alıcının dilinde üretilir (`UiCultureScope` içinde). Parola sıfırlama hesabın etkin dilini, davet okulun varsayılan dilini kullanır. Dil çözülemezse e-posta yine gider, `tr` ile.
+- HTML gövdede çeviri kalıbı **önce kaçışlanır** (`EmailText.Html`: `& < > "`), sonra önceden kaçışlanmış argümanlarla biçimlenir. İşaretleme (`<b>`, bağlantı) kodda kalır ve argüman olarak verilir.
+- `email/*.json` değerlerinde `<`, `>`, `http`, `www.` bulunmaz (bekçi testi var).
+- Altın testler (`EmailGoldenTests`, `Mail/Golden/*.txt`) `tr` çıktısını sabitler. Altın dosya yalnız bilinçli metin değişikliğinde `OKSIS_GOLDEN_WRITE=1` ile yeniden yazılır; bu değişken CI'da tanımlanmaz.
 
 ## 6. Referans verisi adları
 
