@@ -40,7 +40,7 @@ ssh -i ~/.ssh/oksis_test ubuntu@138.2.159.102 "sudo grep '^TOLGEE_AUTHENTICATION
 
 ## Proje
 
-"OKSİS" (id 1): kaynak dil `tr`, hedef `en`, `useNamespaces=true`, `icuPlaceholders=true`. Sözlük (glossary) ücretsiz sürümde yok; terim sözlüğü kaynağı [[i18n-terim-sozlugu]] kalır. Ücretsiz sınır: en çok 10 kullanıcı, `ee/` özelliği yok. CI için proje API anahtarı (PAK) henüz oluşturulmadı (Dilim D CI kısmı).
+"OKSİS" (id 1): kaynak dil `tr`, hedef `en`, `useNamespaces=true`, `icuPlaceholders=true`. Sözlük (glossary) ücretsiz sürümde yok; terim sözlüğü kaynağı [[i18n-terim-sozlugu]] kalır. Ücretsiz sınır: en çok 10 kullanıcı, `ee/` özelliği yok. CI için proje API anahtarı (PAK) oluşturuldu (2026-10-23); yeri aşağıda "İnternete açılış" bölümünde.
 
 ## İşletim
 
@@ -67,7 +67,11 @@ sudo docker compose start tolgee
 ```
 
 - Deneme için `-d geri_yukleme_deneme` gibi ayrı veritabanı kullan; `docker compose exec` komutlarına betik içinde `-T` ve (heredoc içinde) `</dev/null` ver.
-- Yedekler aynı VM'dedir: VM kaybında yedek de gider. Çeviriler zaten depodaki JSON dosyalarıdır; harici kopya gerekirse Faruk'a sorulur.
+- **VM dışı kopya (2026-10-25):** her yedek ayrıca Oracle Object Storage kovası `oksis-ceviri-yedek`'e (Frankfurt, Private, Standard) yüklenir. Yükleme adresi yalnız yazma izinli bir ön kimlikli istektir (PAR `ceviri-vm-yazma`: hedef kova, "Permit object writes", listeleme yok, bitiş 2027-10-23). Adres VM'de `/opt/oksis/ceviri/yedek-hedef.url` dosyasındadır (root, 600) ve süreç listesine düşmemesi için `curl`'e stdin'den verilir. Dosya yoksa betik uzak yüklemeyi atlar ve günlüğe yazar.
+- Kovada yaşam döngüsü kuralı `30-gun-sonra-sil`: 30 günden eski nesneler silinir. Kuralın çalışması için IAM politikası `objectstorage-yasam-dongusu` gerekir (Object Storage servisine yalnız bu kovada nesne yönetimi izni; Faruk ekledi).
+- Uzak kopyanın denetimi: günlükte `uzak yedek tamam: <dosya>` satırı (`journalctl -u oksis-ceviri-yedek.service`) ve konsolda kovanın Objects listesi. İlk yükleme 2026-10-25'te doğrulandı (boyut yerel dosyayla aynı).
+- PAR bitmeden (2027-10-23) yenisi oluşturulup dosyaya yazılır. Adres bir parola gibi saklanır: belgeye, sohbete ya da komut satırına yazılmaz.
+- Geri yükleme için uzak kopya konsoldan indirilir (PAR yalnız yazma izinlidir, okuyamaz), sonra yukarıdaki geri yükleme adımları uygulanır.
 
 ## Güncelleme
 
@@ -82,4 +86,5 @@ sudo docker compose start tolgee
 - Tünel `oksis-test` → route `ceviri.oksis.net` → `http://tolgee-ceviri:8080` (Faruk ekledi).
 - Cloudflare Access uygulaması `oksis-ceviri` (self-hosted, hedef `ceviri.oksis.net`, politika `test-ekibi`, oturum 24 saat). Girişsiz istek Access girişine 302 ile yönleniyor; Tolgee'nin kendi girişi ikinci katman.
 - CI erişimi: Access service token `oksis-ceviri-ci` (1 yıl, bitiş 2027-10-23) ve uygulamada ayrı `ceviri-ci-servis` politikası (Service Auth, yalnız bu token). Değerler `oksis-ui` GitHub secret'larında: `CF_ACCESS_CLIENT_ID`, `CF_ACCESS_CLIENT_SECRET`; istekte `CF-Access-Client-Id` / `CF-Access-Client-Secret` başlıklarıyla gider.
-- Tolgee PAK: yerelde macOS anahtar zinciri (servis `oksis-tolgee-pak`); CI için ayrıca GitHub secret olarak eklenecek (Dilim S).
+- Tolgee PAK: yerelde macOS anahtar zinciri (servis `oksis-tolgee-pak`); CI'da `oksis-ui` GitHub secret'ı `TOLGEE_API_KEY`. Yenileme şimdilik yapılmadı (Faruk kararı, 2026-10-25).
+- `oksis-ui` deposunda "Allow GitHub Actions to create and approve pull requests" açık (2026-10-25); `ceviri.yml` pull işi çeviri PR'ını kendisi açar.
