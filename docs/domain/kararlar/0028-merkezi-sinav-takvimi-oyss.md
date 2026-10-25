@@ -6,15 +6,15 @@ status: accepted
 
 # 0028 — Merkezi sınav takvimi (OYSS) platform kataloğundan okula içe alınır; merkezi satırın tarihi kilitlidir, saati gerekçeyle değişir
 
-**Durum:** Kabul edildi (2026-10-22, Faruk). İki madde birincil kaynaktan doğrulanmayı bekliyor; aşağıda **[doğrulama bekliyor]** diye işaretli.
+**Durum:** Kabul edildi (2026-10-22, Faruk). Doğrulama bekleyen iki madde 2026-10-25'te kapandı (bkz. "Doğrulama bekleyenler").
 
 ## Bağlam
 
 MEB 2026-27 eğitim-öğretim yılında **Ortak Yazılı Sınav Sistemi**'ni (OYSS) açıkladı:
 
 - Kapsam ortaokul 5–7 ve lise 9–11. sınıflardır. Sorular MEB havuzundan gelir, zümre 2 soru ekler; sınav Yeni EBA üzerinden yürür.
-- **Günler merkezîdir.** Ders saati öntanımlı olarak 2. derstir (iki sınavın aynı güne düştüğü günde 2. ve 4. ders). Okul müdürlüğü saati değiştirebilir. Süre 40 dakikadır. Sınavı o saatte o şubede derse giren öğretmen uygular. **[doğrulama bekliyor: ders saati kuralı]**
-- 1. yazılılar 3–13 Kasım 2026'dadır. Ülke geneli ortak sınavlar 6, 7, 9 ve 10. sınıflarda yapılır: 11–12 Kasım, 5–6 Ocak, 6–7 Nisan, 8–9 Haziran. Mazeret sınavları 23–27 Kasım'dadır ve okul planlar. Bu tarihten sonra kalan öğrenciye öğretmen 5 iş günü içinde telafi yapar.
+- **Günler merkezîdir.** Ders saati öntanımlı olarak 2. derstir (iki sınavın aynı güne düştüğü günde 2. ve 4. ders). Okul müdürlüğü ihtiyaç hâlinde farklı bir ders saati planlayabilir. Süre 40 dakikadır. Sınavı o saatte o şubede derse giren öğretmen uygular. (Doğrulandı 2026-10-25, OYSS uygulama takvimi s.1.)
+- 1. sınavlar 3–13 Kasım 2026'dadır. Ülke geneli ortak sınavlar 6, 7, 9 ve 10. sınıflarda yapılır; 1. dönem 1. sınav penceresinde yalnız **6. sınıf Matematik (11 Kasım)** ve **10. sınıf Türk Dili ve Edebiyatı (12 Kasım)** ülke genelidir. Diğer ülke geneli tarihler 5–6 Ocak, 6–7 Nisan ve 8–9 Haziran'dır. Ülke geneli sınav o dersin **1. Sınav**'ı sayılır. Mazeret sınavları 23–27 Kasım'dadır ve okul planlar. Asıl sınava ve mazeret sınavına geçerli mazeretle giremeyen öğrenciyi dersin öğretmeni, **mazeretin bittiği günü izleyen 5 iş günü içinde** sınava alır. MEB bu sınava ayrı bir ad vermez; OKSİS arayüzde "Ek sınav" der.
 - Soru bazlı puanlar e-Okul'a girilir. Soru ve cevap anahtarı OKSİS'te tutulmaz.
 - Yönetmelik: md. 45/1-g (günde en çok 2 sınav), md. 48 (mazeret), md. 49/2 (sonuç 10 iş günü içinde), itiraz süresi 5 gün.
 
@@ -48,9 +48,9 @@ Kodda bugünkü durum (oksis-api, 2026-10-22):
    - S10 yalnız ders saati MEB'in saatinden saparsa gerekçe ister. Sapma yoksa yalnız görünür.
    - MEB saatinde o şubede ders yoksa, yani uygulayıcı bulunamazsa, uygulayan dersin öğretmeni olur ve S10 düşer.
 6. **İçe alma.** Önizlemeli ve idempotenttir. Önizleme şunları gösterir: eşleşen satırlar, **eşleşmeyen dersler listesi** (katalogda olup okulun programında karşılığı olmayan dersler) ve pencere dışına düşen tarihler (`outOfWindowDates`). Aynı takvim sürümünü ikinci kez içe almak satır çoğaltmaz. Anahtar, var olan şube × ders × pencere tekilliği ile `CentralEntryId`'dir.
-7. **Ülke geneli sınavlar.** Ayrı bir sınav türü açılmaz. Ülke geneli sınav, MEB'in adlandırdığı yazılı penceresine (ör. 1. yazılı) satır olarak bağlanır; katalog satırı kapsamı (okul geneli OYSS / ülke geneli) bilgi olarak taşır. **[doğrulama bekliyor: ülke geneli sınavın hangi yazılı sayıldığı]**
+7. **Ülke geneli sınavlar.** Ayrı bir sınav türü açılmaz. Ülke geneli sınav, MEB'in adlandırdığı yazılı penceresine (ör. 1. yazılı) satır olarak bağlanır; katalog satırı kapsamı (okul geneli OYSS / ülke geneli) bilgi olarak taşır. Ülke geneli sınav o dersin 1. Sınav'ı sayılır (doğrulandı 2026-10-25).
 8. **Bildirim.** Yeni bildirim türü açılmaz. Takvimin yayınlanması, yarın sınav var ve saat değişikliği için var olan türler kullanılır.
-9. **Mazeret.** Mazeret sınavı `MakeupExam` adında ayrı bir agregattır ve Sürüm 2'de gelir. Mazeret sınavının notu [[Notlar]] modülünde girilir. Bu modül notu tutmaz.
+9. **Mazeret.** Mazeret sınavı `MakeupExam` adında ayrı bir agregattır ve Sürüm 2'de gelir (ayrıntı: "Sürüm 2 — mazeret sınavı"). Mazeret sınavının notu [[Notlar]] modülünde girilir. Bu modül notu tutmaz.
 
 ### Faruk kararları (2026-10-22)
 
@@ -80,6 +80,63 @@ Kod incelemesi ve uçtan uca testlerde verilen kararlar. Yukarıdaki maddeleri d
 | U9 | Takvimi atma | `Draft` ve `Verified` takvim atılabilir. `Published` ve `Superseded` atılamaz. |
 | U10 | Müfredat aktivasyonu | Aynı dersin ortak ve seçmeli MEB satırları snapshot'ta tek satırdır. Seçmeli payı `elective_weekly_hours` ile ayrıca tutulur. Kota ekranı dersi parçalarına ayırarak gösterir, haftalık saat ekranları toplamı gösterir. |
 
+### Sürüm 2 — mazeret sınavı (2026-10-25)
+
+Plan: https://claude.ai/artifact/WYs7fopue7kdNvZEXQPcUk. Faruk 2026-10-25'te on iki kararın hepsini önerildiği gibi onayladı. Kod: oksis-api ve oksis-ui `feature/oyss-surum-2` dalları (dev'e PR ile gelir).
+
+**Kapsam sınırı.** EBA'da sınavın içeriği (soru, kâğıt, asıl/mazeret sınav tipi) zümre başkanınca hazırlanır. Puan ve "G" (girmedi) e-Okul'a girilir. OKSİS mazeretin lojistiğini tutar: kim hak sahibi, kabul mü, hangi gün, kaçıncı ders, hangi derslik, kim gözetmen, girdi mi.
+
+| No | Konu | Karar |
+|---|---|---|
+| M1 | Yoklama bağı | İsteğe bağlıdır (`Exams:Makeup:RequireAttendanceLink`, öntanım kapalı). Bağ yoksa gerekçe kategorisi zorunludur. Onaylı bir devamsızlık mazereti sınav gününü kapsıyorsa talep kendiliğinden kabul edilir; gerekçe Yoklama'da kalır, `MakeupExam` yalnız kimliği tutar. |
+| M2 | Gerekçe | Kategori (Sağlık / Aile / Resmî görev / Diğer) ve "belge kâğıtta görüldü" işareti (isteğe bağlı). Belge yüklenmez. Sağlık kategorisinde serbest not yazılamaz; diğerlerinde not 15–300 karakterdir. |
+| M3 | Öğretmenin gördüğü | Ders öğretmeni gerekçe, kategori ve not görmez. Gerekçe yalnız `exams.makeup.manage` ile `attendance.manage` birlikteyken görünür; SuperAdmin hiçbir durumda görmez. Yetki yokken hak sahibi listesinde "izinli" ile "raporlu" tek bir nötr koda iner. |
+| M4 | Hak sahibi | Sınav saatinde özürsüz devamsız, izinli ya da raporlu olan öğrenci aday olarak listelenir; kararı idare verir. Aday kalıcı durum değildir, okuma anında yoklamadan türetilir. |
+| M5 | Mazeret notu | Öğrencinin mazeret sınavı "girdi" işaretliyse, Notlar'daki 48 saatlik düzeltme penceresi o öğrenci × o sınav için dönem sonuna kadar açılır (`IMakeupMarkGate`). Denetim izinde "mazeret sınavı notunu girdi" yazar. |
+| M6 | Mazeret haftası | Okul aralığı pencereye girer (en çok 31 gün, dönem sonunu aşmaz, pencere bitişinden sonra başlar). Kilitli pencerede de girilebilir. |
+| M7 | Adlandırma | Tek terim "Mazeret Sınavı". İki tür: okulun mazeret haftası (`SchoolWeek`) ve öğretmenin ek sınavı (`TeacherCatchUp`, arayüzde "Ek sınav"). "Telafi" kelimesi kullanılmaz. Ek sınavın son tarihi, mazeretin bittiği günü izleyen 5. okul günüdür ve dönem sonunu aşmaz. Okul günü: yürürlükteki sezonun dönemi içinde, hafta içi, tatil değil, zil çizelgesinde kapalı değil. |
+| M8 | Yeniden planlama | Dönem sonuna kadar yeniden planlanabilir. Girmeyen öğrenci için yeni geçerli mazeret yeni bir ek sınav kaydı açar (önceki kayda bağlı). |
+| M9 | Ülke geneli sınav | Ülke geneli sınav için de mazeret açılır, okul planlar. Katalog şeması değişmez. |
+| M10 | Öğretmen mobili | Mazeret oturumları yalnız öğrenci sayısıyla görünür, öğrenci adı yoktur. |
+| M11 | Push sızıntısı | Yoklama push'u artık öğrenci adı, şube ve durum taşımaz. Serbest gerekçe ya da not taşıyan bütün türlerde push gövdesi geneldir; ayrıntı uygulama içinde kalır. |
+| M12 | Saklama | Serbest metin gerekçe (not, karar notu, iptal gerekçesi) terminal durumdan 180 gün sonra temizlenir (`Exams:Makeup:ReasonRetentionDays`). Kilitli pencerede bayat kalan açık kayıtlar da aynı süreyle temizlenir. Süre taslaktır, hukuk teyidi bekler. |
+
+**Kural kodları** ([[0018-sinav-kurallari-denetleyicide]] eki, mimar onayı bekler):
+
+- `EX-H14` (sert): Geçmiş gün, okul günü olmayan gün, mazeret haftası dışı tarih, ek sınavda mazeret bitişinden önce ya da son tarihten sonra, dönem sonundan sonra.
+- `EX-H15` (sert): Öğrencinin kendi şubesinin o saatte planlı sınavı var.
+- `EX-S11` (uyarı): Günlük sınav yükü okul sınırını aşıyor.
+- `EX-S12` (uyarı): Gözetmenin o saatte kendi dersi var.
+- `EX-S13` (uyarı): Derslik kapasitesi aşılıyor ya da duyuru payı bir günden az.
+
+Mevcut `EX-H05`, `H06` ve `H11` mazeret satırlarına da uygulanır. Yumuşak kural geçişi gerekçe istemez ve saklanmaz.
+
+**Model ve uçlar.**
+
+- `MakeupExam` öğrenci başına satırdır; oturum agregatı yoktur. Aynı gün, saat ve derslikteki satırları istemci okuma anında gruplar.
+- Durumlar: `Applied → Accepted | Rejected → Scheduled → Held | NoShow`; her açık durumdan `Cancelled`. Bir öğrenci × bir asıl sınav için aynı anda tek açık kayıt olur.
+- Yeni izin `exams.makeup.manage` yalnız Okul Müdürü ve Müdür Yardımcısı rollerindedir.
+- Gerekçe okuma, karar, iptal ve mazeret bitiş günü değişikliği metin içermeyen, yalnız eklenebilir bir denetim izine yazılır (`MakeupAuditEntry`).
+- Bildirimde yeni tür açılmadı: planlama, taşıma, iptal ve "yarın sınav" var olan türlerle öğrenciye ve veliye gider. Gözetmene hücre başına tek bildirim gider.
+
+**MEB yeni sürüm sinyali.** Platformda daha yüksek sürümlü bir takvim yayımlanınca, okulun içe aldığı en yüksek sürümle karşılaştırılır. Fark varsa pencere listesinde `centralUpdates` ile görünür (`GET exams/windows/{id}/central-updates` ayrıntıyı verir). Gece taraması yöneticiye "takvim yayımlandı" türüyle tek bildirim gönderir. Yeniden aktarım, yeni sürümden bir satır alındığında sinyali söndürür.
+
+**KVKK sertleştirmeleri (Sürüm 2 ile gelen).**
+
+- Log maskeleme bileşeni ilk kez devreye bağlandı. Kimlik bilgisi anahtarları alt dizeyle, serbest metin alanları tam adla maskelenir.
+- Mazeret belgesinin görünen adı ve indirme adı sunucuda üretilir.
+- Gerekçe dönen uçlar `Cache-Control: no-store` döner.
+
+**Açık sorular (Faruk).**
+
+- Saklama süresi ve "Sağlık" kategorisinin süre sonunda kalması hukuk teyidi bekler.
+- Yoklama mazeretlerinin serbest metinleri için anonimleştirme işi.
+- Bilgi kısıtlı velinin mazeret bildirimi alması.
+- E-posta kanalında "Raporlu" metni.
+- Eski mazeret satırlarındaki özgün belge adlarının geri doldurulması.
+- MEB yeni sürümde kalkan dersin yeniden aktarımdaki davranışı.
+- İptalden sonra öğrencinin yeniden aday olması (bugünkü davranış).
+
 ## Agregat sınırları
 
 | Agregat | Kök | Kiracı | İçerik | Bağ |
@@ -87,7 +144,7 @@ Kod incelemesi ve uçtan uca testlerde verilen kararlar. Yukarıdaki maddeleri d
 | Merkezi takvim | `CentralExamCalendar` | Yok (platform, `master`) | Akademik yıl, kaynak belge, sürüm, durum (`Draft → Verified`, ardından `Superseded`), yükleyen, doğrulayan; satırlar çocuktur | — |
 | Merkezi takvim satırı | `CentralExamCalendarEntry` (takvimin çocuğu) | Yok | Sınıf seviyesi, ders, dönem, yazılı sırası (MEB adıyla), tarih, öntanımlı ders saati, kapsam (OYSS / ülke geneli) | Ders ve seviye master kimlikleri |
 | Planlı sınav (var olan) | `ScheduledExam` | `SchoolId` | + `CentralEntryId`, `CentralDate`, `CentralPeriod` | Katalog satırına yalnız kimlikle; navigasyon yok |
-| Mazeret sınavı (Sürüm 2) | `MakeupExam` | `SchoolId` | Öğrenci, asıl sınav, plan tarihi ve saati, tür (okul mazeret haftası / öğretmen telafisi), durum | `ScheduledExam`'a ve yoklama kaydına kimlikle; not Grades'te |
+| Mazeret sınavı (Sürüm 2) | `MakeupExam` | `SchoolId` | Öğrenci, asıl sınav, plan tarihi ve saati, tür (okul mazeret haftası / öğretmenin ek sınavı), durum | `ScheduledExam`'a ve yoklama kaydına kimlikle; not Grades'te |
 
 Kilit kuralı `ScheduledExam`'ın içinde yaşar, çünkü tek satıra bakar. S10 ve yumuşama kural denetleyicisinde yaşar, çünkü birden çok satıra bakar ([[0018-sinav-kurallari-denetleyicide]]).
 
@@ -151,7 +208,7 @@ EF Core yapılandırması var olan kalıbı izler: katalog `ToMasterTable` ile, 
 - Sınav Takvimi modülünün "okul dışı merkezi sınavlar kapsam dışı" maddesi bu kararla daralır: OYSS lojistiği kapsamdadır, içerik ve puan dışarıdadır.
 - Mobilde OYSS satırı rozetle görünür; "puanlar e-Okul'da" şeridi gösterilir. OKSİS e-Okul'a bağlanmaz; yalnız bilgi verir.
 - Tek platform hesabıyla takvim doğrulanamaz; dev ortamında ikinci bir platform hesabı gerekir ([[0022-mufredat-yayimi-iki-kisi-kurali]] ile aynı bilinçli maliyet).
-- Mazeret ve telafi Sürüm 2'ye kadar OKSİS'te izlenmez; 23–27 Kasım mazeret haftası Sürüm 2 takvimiyle yetişmelidir (2–18 Kasım).
+- Mazeret sınavı Sürüm 2'ye kadar OKSİS'te izlenmez; 23–27 Kasım mazeret haftası Sürüm 2 takvimiyle yetişmelidir (2–18 Kasım).
 - Çevrimdışı çalışma yoktur (K3). Sınav günü bağlantı yoksa mobil "bağlantı yok" ekranı gösterir; canlıya geçiş öncesi listesine yazılır.
 
 ## Geri alma maliyeti
@@ -160,8 +217,10 @@ EF Core yapılandırması var olan kalıbı izler: katalog `ToMasterTable` ile, 
 
 ## Doğrulama bekleyenler
 
-- **MEB ders saati kuralı** (öntanımlı 2. ders, çift sınav gününde 2. ve 4. ders, okul müdürlüğünün değiştirme yetkisi): eğitim uzmanı birincil kaynaktan doğruluyor. Kural değişirse yalnız `default_period` değerleri ve içe alma eşlemesi etkilenir; kilit ve S10 tasarımı değişmez.
-- **Ülke geneli sınavın yazılı adlandırması** (hangi yazılı penceresine bağlanacağı): eğitim uzmanı doğruluyor. Sonuç yalnız katalog satırının `written_ordinal` değerini belirler.
+İki madde 2026-10-25'te birincil kaynaktan kapandı:
+
+- **MEB ders saati kuralı — doğrulandı.** Günde tek sınavda 2. ders, iki sınavda 2. ve 4. ders, süre 40 dakika; okul müdürlüğü ihtiyaç hâlinde farklı ders saati planlayabilir. Kodun `default_period` eşlemesi değişmedi.
+- **Ülke geneli sınavın adlandırması — doğrulandı.** MEB metni ülke geneli sınavı "1. dönem 1. sınavı" diye anar; katalog satırının `written_ordinal` değeri 1'dir.
 
 ## Kaynaklar
 

@@ -77,7 +77,7 @@ Kodların tek yeri kural denetleyicisidir; sertlik ayrımını çağıran uygula
 | `EX-S04` | Yumuşak | Bir dersliğe tek şubeden öğrenci düştü (karışım olmadı); oturum kapsamında görünür, yayın listesine girmez. |
 | `EX-S05` | Yumuşak · gerekçeyle geçilir | Saati seçilmemiş şube × ders var — hiç dokunulmamış çiftler dahil. |
 | `EX-S06` | Yumuşak · yalnız görünür | Derslikte kapasite aşıldı; kapasitesi girilmemiş derslik aşılmış sayılmaz. |
-| `EX-S10` | Yumuşak · gerekçe yalnız saat MEB'den saparsa | **Planlandı, kodda henüz yok** ([[0028-merkezi-sinav-takvimi-oyss]]). Merkezi (OYSS) satırda `EX-H01`, `EX-H03` ve `EX-H08` bu uyarıya yumuşar; `EX-H05/H06/H10/H11/H12/H13` sert kalır. MEB saatinde uygulayıcı yoksa uygulayan dersin öğretmenidir ve S10 düşer. |
+| `EX-S10` | Yumuşak · gerekçe yalnız saat MEB'den saparsa | Kodda var (Sürüm 1, [[0028-merkezi-sinav-takvimi-oyss]]). Merkezi (OYSS) satırda `EX-H01`, `EX-H03` ve `EX-H08` bu uyarıya yumuşar; `EX-H05/H06/H10/H11/H12/H13` sert kalır. MEB saatinde uygulayıcı yoksa uygulayan dersin öğretmenidir ve S10 düşer. |
 
 `EX-H02`, `EX-H04`, `EX-H07`, `EX-S02`, `EX-S03` kural denetleyicisinde **hiç yazılmadı** ve numaraları başka kurala verilmez (R47). `EX-H04` (kapasite sert) ve `EX-S03` (gözetmen yük dengesi) bilinçle yazılmayacak; `EX-S02` (öğretmen kendi öğrencisinin dersliğinde gözetmen) kelebekte beklenen durum olduğu için yazılmayacak.
 
@@ -106,7 +106,7 @@ Sekiz tür; "değişti" diyen her bildirim yalnız takvim yayındayken gider —
 ## Kapsam dışı
 
 - **Sınav notu** — [[Notlar]] modülünündür; bu modül yalnız tarihi besler.
-- **Sınav kâğıdı, soru, içerik; telafi ve mazeret sınavı planlama; gözetmen ek ders ücreti; okul dışı merkezi sınavlar** — bilinçle dışarıda.
+- **Sınav kâğıdı, soru, içerik; gözetmen ek ders ücreti; okul dışı merkezi sınavlar** — bilinçle dışarıda. Mazeret sınavı planlama OYSS Sürüm 2 ile kapsama girdi (aşağıda).
 - **Ders programını askıya almak** — sınav program hücresine yazılmaz; program istisnası üretilmez, yerleşim değiştirilmez.
 - **Kapı listesi, oturma planı ve gözetmen çizelgesi çıktıları; gözetmenin yoklama alması; öğretmen görüş penceresi** — sonraki faz (Faz 2b). Görüş penceresinin alanları ve ayarı var ama hiçbir akış kullanmıyor.
 - **Derslik ve gözetmeni öneren otomatik dağıtıcı** — Faz 3.
@@ -116,7 +116,7 @@ Sekiz tür; "değişti" diyen her bildirim yalnız takvim yayındayken gider —
 
 ## OYSS / merkezi takvim
 
-> Karar: [[0028-merkezi-sinav-takvimi-oyss]] (kabul edildi 2026-10-22) · Plan: [[oyss-gecis-plani]]. **Durum:** tasarım; kodda henüz yok (oksis-api 2026-10-22).
+> Karar: [[0028-merkezi-sinav-takvimi-oyss]] (kabul edildi 2026-10-22) · Plan: [[oyss-gecis-plani]]. **Durum:** Sürüm 1 kodda ve dev ortamında (oksis-api#56, 2026-10-23): `CentralExamCalendar*` kataloğu, içe alma, kilit, `:change-central-period` ve `EX-S10`.
 
 MEB'in 2026-27'de başlattığı Ortak Yazılı Sınav Sistemi'nde (OYSS) sınav günleri merkezîdir. Ders saati öntanımlıdır ve okul müdürlüğü değiştirebilir. Soruları ve puanı MEB / e-Okul tutar. Bu modül bu yüzden içerikten lojistiğe yeniden konumlanır: OKSİS "hangi gün, kaçıncı ders, hangi şube, kim uygular" sorusunu cevaplar.
 
@@ -125,7 +125,7 @@ MEB'in 2026-27'de başlattığı Ortak Yazılı Sınav Sistemi'nde (OYSS) sınav
 - **Kilit:** merkezi satırın tarihi değişmez ve öğretmen gün seçemez. Saati yalnız idare gerekçeyle değiştirir (`:change-central-period`); yayınlanmış takvimde bu, revizyon türü 6 `CentralPeriodChanged` yazar.
 - **Uygulayan:** MEB saatinde o şubede derse giren öğretmendir. O hücrede ders yoksa dersin öğretmeni uygular ve `EX-S10` düşer.
 - **Ülke geneli sınavlar** ayrı bir tür değildir; MEB'in adlandırdığı yazılı penceresine satır olarak bağlanır. Yeni bildirim türü açılmaz.
-- **Mazeret** (`MakeupExam`) Sürüm 2'dedir. Notu [[Notlar]] modülünde girilir.
+- **Mazeret sınavı** (`MakeupExam`, Sürüm 2): hak sahibi yoklamadan türetilir, idare kabul eder, okulun mazeret haftasında ya da öğretmenin ek sınavında (mazeret bitişini izleyen 5 okul günü) planlanır; ders öğretmeni gerekçeyi görmez. Notu [[Notlar]] modülünde girilir. Kurallar ve kararlar: [[0028-merkezi-sinav-takvimi-oyss]] "Sürüm 2 — mazeret sınavı".
 - Bu bölüm, "Kapsam dışı" altındaki "okul dışı merkezi sınavlar" maddesini OYSS lojistiği için daraltır. İçerik ve puan kapsam dışı kalır.
 
 ## Notlar
