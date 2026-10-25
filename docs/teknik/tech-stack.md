@@ -244,7 +244,7 @@ Ayrıntı: [[test]].
 | Zustand | **Kurulu değil.** Bağlam durumu web'de React context'te, mobilde modül deposu ve `useSyncExternalStore` ile tutulur. |
 | react-hook-form (apps/web) | `apps/web` bağımlılığı değil (yalnız `packages/ui` içinde). Web formlarında kalıp `useState` ve `schema.safeParse`. |
 | TanStack Table / grid kütüphanesi | Yok. Tablolar portlanmış prototip CSS sınıflarıyla yazılır. |
-| i18n kütüphanesi | Bugün yok; arayüz metinleri doğrudan Türkçe yazılır. ADR [[0029-cok-dil-altyapisi-ingilizce]] (2026-10-23) ile `tr` + `en` kabul edildi; zemin aşaması bitene kadar bu satır kodun bugünkü hâlini anlatır (`next-intl`, `i18next`, Tolgee self-hosted). |
+| i18n | Zemin kurulu (ADR [[0029-cok-dil-altyapisi-ingilizce]], 2026-10-25): web `next-intl`, mobil `i18next` + `react-i18next` + `i18next-icu` + `expo-localization`, ortak mesajlar `packages/i18n`; API gömülü JSON + `IStringLocalizerFactory` (`Microsoft.Extensions.Localization.Abstractions`); çeviri yönetimi Tolgee self-hosted ücretsiz sürüm (`ceviri.oksis.net`). Modül metinleri göçle taşınır. Kurallar: [[teknik/kurallar/frontend/metin-ve-ceviri|frontend]], [[teknik/kurallar/backend/metin-ve-ceviri|backend]]. |
 | NativeWind, React Navigation, jest (mobil) | Yok. Stil `tokens.ts` üzerinden, yönlendirme Expo Router ile yapılır. |
 | `apps/mobile` → `@workspace/ui` importu | **Yasak** (web/DOM bileşenleri). |
 | Yeni kütüphane | Sessizce eklenmez, önce sorulur. |

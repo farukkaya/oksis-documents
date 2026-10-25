@@ -19,7 +19,7 @@ Ayrıntılar:
 
 - Zod sürümü **4**'tür (`zod ^4.4.3`).
 - Adlandırma: şema `xSchema`, çıkarılan tip `XValues` (örnek `sectionFormSchema` / `SectionFormValues`).
-- Hata mesajları şemada Türkçe yazılır. Tasarım teslimindeki metin varsa birebir o kullanılır.
+- Hata mesajları şemada Türkçe yazılır. Tasarım teslimindeki metin varsa birebir o kullanılır. Modül göçünde şema metinleri de anahtara taşınır; yöntem ilk göçte belirlenir (bkz. [[teknik/kurallar/frontend/metin-ve-ceviri|metin-ve-ceviri]]).
 - Alanlar arası kurallar `superRefine` ile eklenir. Örnek: "Raporlu seçiliyse belge zorunlu" (`excuseFormSchema`).
 - Şema tanımının üstüne Türkçe açıklama yorumu yazılır; hangi ekranın, hangi kuralın karşılığı olduğunu anlatır.
 

@@ -19,7 +19,7 @@
 - **`@workspace/ui` asla import edilmez.** O paket web ve DOM içindir.
   - Uyarı: `mobileBoundaries` ESLint kuralı tanımlı, fakat `apps/mobile/eslint.config.mjs` onu bağlamıyor. Bu kuralın bugün otomatik bekçisi yok.
 - Web ile **aynı beyin** kullanılır: tipler, şemalar ve iş mantığı `@workspace/core`'dan, veri hook'ları `@workspace/api`'den gelir. Yeniden yazılmaz.
-- Sözlük ve adlandırma kuralları web ile aynıdır (bkz. [[adlandirma]]). Arayüz metinleri Türkçedir.
+- Sözlük ve adlandırma kuralları web ile aynıdır (bkz. [[adlandirma]]). Sistem metni anahtarla yazılır (`react-i18next`, ICU söz dizimi); göçü bitmemiş ekranlar Türkçe sabit metinle çalışır. Ayrıntı: [[teknik/kurallar/frontend/metin-ve-ceviri|metin-ve-ceviri]].
 - Feature'lar `src/features/<alan>/{components,lib,index.ts}` yapısındadır ve yalnız arayüz içerir.
 - Feature'lar birbirinin iç dosyasını import etmez. İkinci bir tüketici çıkınca parça `src/lib/` ya da `src/components/` altına terfi eder. Emsal: `lib/active-child.ts`, `components/icon.tsx`.
 - Rota dosyası feature ekranını çizer; gerekiyorsa `PortalScreen` ile sarar.
@@ -98,7 +98,7 @@
 | React Navigation v7, typed ParamList, `RootNavigator` rol yönlendirmesi, "Expo Router yasak" | Expo Router |
 | NativeWind v4 `className`, `npm run sync-theme` ile web Tailwind config kopyası | `tokens.ts` + `style` |
 | `expo-notifications` + `setNotificationHandler` | `@react-native-firebase/messaging` |
-| i18n key, "hardcoded Türkçe yasak" | Metinler doğrudan Türkçe |
+| i18n key, "hardcoded Türkçe yasak" (eski `src/shared/i18n/locales`) | Ortak `packages/i18n` mesajları + dizin listeli ESLint bekçisi; göçü bitmemiş ekranlar Türkçe sabit metinle çalışır |
 | jest, `npm test` | Test çalıştırıcı yok |
 | React Hook Form `Controller` zorunluluğu | RHF yok |
 | Tenant renk özelleştirmesi, dark mode kuralları | Kodla doğrulanmadı |
