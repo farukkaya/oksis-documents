@@ -55,7 +55,7 @@ Varsayılan A'dır. B'yi yalnız kuralın farkı kullanıcıyı yanıltacaksa ku
 - **Sentence case:** düğmeler, form etiketleri, sütun başlıkları, durum rozetleri, hata/bilgi mesajları, bildirim ve e-posta metni. ("Save draft", "Due date", "Not taken")
 - Cümle içinde alan terimleri küçük harfle yazılır ("your homeroom teacher"); özel adlar (MEB, resmî tatiller, rol adları menüde) büyük.
 - Türkçe kaynaktaki BÜYÜK HARF vurgusu İngilizceye taşınmaz.
-- **Türkçede de aynı kural (2026-10-26):** sayfa/sekme/bölüm başlıkları Title Case ("Veli Toplantısı Ayarları"); düğmeler ve soru başlıkları sentence case ("Değişiklikleri kaydet", "Save changes").
+- **Türkçede de aynı kural (2026-10-26):** sayfa/sekme/bölüm/modal başlıkları Title Case ("Veli Toplantısı Ayarları"); düğmeler ve soru başlıkları sentence case ("Değişiklikleri kaydet", "Save changes"). **Başlık anahtarı düğmede yeniden kullanılmaz;** düğme için ayrı `.confirm`/`.action` anahtarı açılır (başlık Title Case, düğme sentence case).
 
 ### 1.5 Ton ve dil bilgisi
 
@@ -230,7 +230,7 @@ Arayüz terimi kod adıyla aynı olmak zorunda değil; anahtar (`<modül>.<ekran
 | Devam sorgusu (Şu an okulda mı?) | Attendance lookup | | orta |
 | Öğrenci takibi (menü grubu) | Student Tracking | UI `studentTracking`. | orta |
 | Etkinlik yoklaması | Activity roll call | UI `activityRollCall`. Gezi/tören güvenlik sayımı; devamsızlığa girmez. | orta |
-| Sayım turu | Head count | "Count round" anlaşılmaz; "head count" yerleşik. | orta |
+| Sayım anı | Head count | "Count round" anlaşılmaz; "head count" yerleşik. | orta |
 | Sorumlu devri | Handover | UI `activityHandover`. | yüksek |
 | Sonradan eklenen (katılımcı) | Added later | | yüksek |
 | Kulüp saati yoklaması | Club period attendance | | yüksek |

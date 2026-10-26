@@ -16,7 +16,7 @@
 - Göçü bitmemiş ekranlar bugün Türkçe sabit metinle çalışır; modül göçüne kadar kalır.
 - Terimler [[i18n-terim-sozlugu]]'ne uyar (en-US). Dersler, branşlar, yabancı dil adları, eğitim programları ve il/ilçe/mahalle çevrilmez.
 - Dil seçeneklerinin etiketi kendi dilinde yazılır ("Türkçe", "English").
-- Büyük harf (§1.4, sözlük): sayfa/sekme/bölüm başlıkları Title Case, düğmeler ve soru başlıkları sentence case; kural tr ve en için aynıdır ("Veli Toplantısı Ayarları" / "Değişiklikleri kaydet").
+- Büyük harf (§1.4, sözlük): sayfa/sekme/bölüm/modal başlıkları Title Case, düğmeler ve soru başlıkları sentence case; kural tr ve en için aynıdır ("Veli Toplantısı Ayarları" / "Değişiklikleri kaydet"). Başlık anahtarı düğmede yeniden kullanılmaz; düğme için ayrı `.confirm`/`.action` anahtarı açılır.
 
 ## 2. Mesaj dosyaları
 
