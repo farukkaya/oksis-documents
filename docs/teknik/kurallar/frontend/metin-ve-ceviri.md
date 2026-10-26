@@ -16,6 +16,7 @@
 - Göçü bitmemiş ekranlar bugün Türkçe sabit metinle çalışır; modül göçüne kadar kalır.
 - Terimler [[i18n-terim-sozlugu]]'ne uyar (en-US). Dersler, branşlar, yabancı dil adları, eğitim programları ve il/ilçe/mahalle çevrilmez.
 - Dil seçeneklerinin etiketi kendi dilinde yazılır ("Türkçe", "English").
+- Büyük harf (§1.4, sözlük): sayfa/sekme/bölüm başlıkları Title Case, düğmeler ve soru başlıkları sentence case; kural tr ve en için aynıdır ("Veli Toplantısı Ayarları" / "Değişiklikleri kaydet").
 
 ## 2. Mesaj dosyaları
 
@@ -32,6 +33,7 @@
 - **Mobil:** `i18next` + `react-i18next` + `i18next-icu`, `useTranslation("<ad-alanı>")`. Dil sırası: kalıcı tercih (`oksis-locale`, SecureStore) → cihaz dili (`expo-localization`) → `tr`. Hermes'te eksik olan `Intl.PluralRules` dolgusu yalnız eksikken yüklenir.
 - Oturum açınca etkin dil `me/context.effectiveLanguage`'dan alınır; sunucunun dili kazanır. Dil değişince TanStack Query önbelleği geçersizlenir (sunucuda çözülen adlar yenilensin).
 - API istekleri `Accept-Language` başlığını taşır (`packages/api` `getLanguage`).
+- Kullanıcı verisi (öğrenci/öğretmen adı, ders adı, duyuru gövdesi, ödev açıklaması gibi kullanıcının girdiği içerik) her zaman `tr` kalır; yalnız arayüz metni çevrilir.
 - Tarih/sayı biçimi için `packages/i18n` biçimleyicileri kullanılır. Elle `toLocale*` çağrısında dil açıkça verilir (`toLocaleUpperCase(locale)` dahil).
 - Sabit sayı metne yazılmaz; yer tutucuyla koddaki sabitten beslenir (`{min}` ← `RESET_LINK_VALID_MINUTES`, `PASSWORD_MIN_LENGTH`). `en`'de sayıya bağlı sözcük ICU `plural` ile yazılır.
 
@@ -48,7 +50,7 @@
 ### 3.3 Mobil anahtarlar
 
 - Mobilde i18next anahtarları tipsizdir: yanlış anahtar derlemeyi kırmaz, ekranda ham anahtar görünür. Yeni anahtar `tr.json`'a eklenmeden kullanılmaz; dinamik anahtarlar (`portal.${rol}` gibi) bütün değerleriyle dosyada bulunur.
-- Bugünkü mobil metin web'den farklıysa davranışı korumak için `<ad-alanı>.mobile.*` altında ayrı anahtar açılır. Metinlerin yakınsatılması ayrı bir karardır.
+- Bugünkü mobil metin web'den farklıysa davranışı korumak için `<ad-alanı>.mobile.*` altında ayrı anahtar açılır. Metinlerin yakınsatılması ayrı bir karardır. Mobil ve web aynı kararı veriyorsa aynı anahtar/cümle kullanılır; iki yüzey için ayrı metin yazılmaz (2026-10-26).
 
 ## 4. Bekçiler
 

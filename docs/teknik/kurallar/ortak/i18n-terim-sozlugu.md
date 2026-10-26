@@ -55,6 +55,7 @@ Varsayılan A'dır. B'yi yalnız kuralın farkı kullanıcıyı yanıltacaksa ku
 - **Sentence case:** düğmeler, form etiketleri, sütun başlıkları, durum rozetleri, hata/bilgi mesajları, bildirim ve e-posta metni. ("Save draft", "Due date", "Not taken")
 - Cümle içinde alan terimleri küçük harfle yazılır ("your homeroom teacher"); özel adlar (MEB, resmî tatiller, rol adları menüde) büyük.
 - Türkçe kaynaktaki BÜYÜK HARF vurgusu İngilizceye taşınmaz.
+- **Türkçede de aynı kural (2026-10-26):** sayfa/sekme/bölüm başlıkları Title Case ("Veli Toplantısı Ayarları"); düğmeler ve soru başlıkları sentence case ("Değişiklikleri kaydet", "Save changes").
 
 ### 1.5 Ton ve dil bilgisi
 
@@ -380,8 +381,8 @@ Arayüz terimi kod adıyla aynı olmak zorunda değil; anahtar (`<modül>.<ekran
 | Sürekli / Geçici (muafiyet) | Permanent / Temporary | | yüksek |
 | Nöbet politikası | Duty policy | | yüksek |
 | Haftalık nöbet sıklığı | Weekly duty frequency | | yüksek |
-| Yancı | Lunch relief | Nöbetçi öğle yemeğindeyken bölgeye bakan öğretmen. Bkz. §17 S-14. | düşük |
-| Yancılık max süresi | Maximum lunch relief time | Seed `DUTY_MAX_ASSISTANT_MINUTES`. | orta |
+| Yancı | Backup duty | Nöbetçi öğle yemeğindeyken bölgeye bakan öğretmen (2026-10-26 kararı: "Lunch relief" bırakıldı). Bkz. §17 S-14. | orta |
+| Yancılık max süresi | Maximum backup duty time | Seed `DUTY_MAX_ASSISTANT_MINUTES`. | orta |
 | Adil otomatik dağıt | Fair auto-assign | | orta |
 | Yük & Adalet | Workload & Fairness | | orta |
 | Vekâlet | Substitution | Kod `Substitution`. UK "cover". Bkz. §17 S-13. | orta |
@@ -725,14 +726,50 @@ Bu kalemler İngilizce arayüzde de Türkçe kaynak biçimiyle görünür; sözl
 | S-11 | Gözetmen | **Proctor** · Invigilator | US varyantı "Proctor"; kod `Invigilator`. UK okullu öğretmen "invigilator"a alışık olabilir. |
 | S-12 | Kelebek sınav sistemi | **Mixed seating** · Butterfly seating · "Kelebek" korunur | "Butterfly" Türkçe deyimin harfi harfine çevirisi, yabancıya anlam taşımaz. "Mixed seating" işlevi söyler. |
 | S-13 | Vekâlet | **Substitution** · Cover | Kod ve US kullanımı "substitution/substitute". "Cover" UK okul jargonu. |
-| S-14 | Yancı | **Lunch relief** · Relief duty · Duty assistant | Kod `reliever`. Türk okuluna özgü; işlev "nöbetçi yemekteyken bölgeyi tutmak". |
-| S-15 | Kantin | **Canteen** · Snack bar · School store | "Cafeteria" yemekhaneye ayrıldı. "Canteen" İngiliz kullanımı ama Türkiye'deki İngilizcede yerleşik. |
+| S-14 | Yancı | **Backup duty** (karar 2026-10-26) · Lunch relief · Relief duty · Duty assistant | Kod `reliever`. Türk okuluna özgü; işlev "nöbetçi yemekteyken bölgeyi tutmak". |
+| S-15 | Kantin | **Canteen** (duty `canteen` anahtarı tr "Kantin", 2026-10-26) · Snack bar · School store | "Cafeteria" yemekhaneye ayrıldı. "Canteen" İngiliz kullanımı ama Türkiye'deki İngilizcede yerleşik. |
 | S-16 | Rehber öğretmen | **School counselor** · Guidance counselor | Güncel US terimi "school counselor". Rol henüz yok. |
 | S-17 | Veli | **Parent** (yasal metinde "parent or guardian") · Parent/Guardian (her yerde) · Guardian | Her yerde "Parent/Guardian" arayüzü kalabalıklaştırır; rol adı kodla aynı "Parent". |
 | S-18 | Ramazan / Kurban Bayramı | **Ramadan Feast (Eid al-Fitr) / Feast of the Sacrifice (Eid al-Adha)** · yalnız "Eid al-Fitr / Eid al-Adha" · "Ramazan Bayramı" korunur | Türk resmî İngilizcesi "Ramadan Feast / Feast of the Sacrifice"; parantez Müslüman olmayan ya da Arap ülkelerinden gelen kullanıcıya köprü. |
 | S-19 | Okul Yöneticisi (rol) | **School Administrator** · Principal · School Admin | Rol müdür dışında birine de verilebiliyor; "Principal" unvan, rol değil. |
 | S-20 | Kulüp Üye Kabul Sorumlusu | **"Club membership approval by: Teacher / Administration"** · Club Admissions Officer · Membership approver | Ayar bir kişi değil, bir yetki modu (öğretmen ya da idare); ad bunu söylemeli. |
 | S-21 | "İngilizce" — dil adı mı, branş/ders adı mı? | (a) **Dil listesi çevrilir (English), ders/branş "İngilizce" kalır** · (b) yabancı dil listesi de çevrilmez | ADR 0029 (a)'yı söylüyor; aynı ekranda iki farklı ad görünecek. Faruk'un bilmesi gereken bir tutarsızlık, çeviri hatası değil. |
+
+### 17.1 Göç 3 terim denetimi eklemeleri (2026-10-26)
+
+Göç 3 en denetimi (oksis-education-expert) sonrası eklenen/kesinleşen terimler. Faruk kararları: S2 salon = Assembly hall, S3 Konferans Salonu = Auditorium, S4 Kantin = Canteen, S5 "Devamsızlık Sınırı Aşımı Resmî Yazısı" = Absence Limit Official Letter (tr'de "Resmi" yerine "Resmî"), S7 kulüp yoklaması = Club Activity Attendance.
+
+| Türkçe | İngilizce |
+|---|---|
+| Yancı | Backup duty |
+| Sorumlu öğretmen | Teacher in charge |
+| Sayım (etkinlik güvenlik sayımı; "Tur" kullanılmaz, tr "Sayım anı") | Head count (üst başlık "Activity head count") |
+| Etkinlik yoklaması | Activity roll call |
+| Devam karnesi | Attendance record |
+| Yoklama dökümü | Attendance roster |
+| Hızlı sorgu | Quick lookup |
+| Beklenen öğretmen | Scheduled teacher |
+| Düzeltilmiş | Corrected |
+| Mazeret bildirimi | Excuse request |
+| Mazeret kaydı | Excuse record |
+| Geçersiz | Voided |
+| Eşiğe uzaklık | Distance to limit |
+| Katılacak / Katılmayacak / Yanıt yok | Attending / Not attending / No response |
+| Gelmedi (veli toplantısı) | Absent |
+| Davet düştü | No longer invited |
+| Not denetim kaydı | Note audit log |
+| Katılım ızgarası | Attendance grid |
+| Başvuru + onay | Application + approval |
+| Derslik türleri (Spor salonu / Konferans salonu) | Gym / Auditorium |
+| Açık alan | Outdoor area |
+| Ödev işlemleri | Homework actions |
+| Ödev tamamlama raporu | Homework completion report |
+| Okul ortalaması | School average |
+| Geç | Late |
+| Görsel / Belge / Bağlantı | Image / Document / Link |
+| Nöbet yönetimi | Duty management |
+| Koridor / Kapı (nöbet yeri türü) | Hallway / Entrance |
+| Hastalık izni / Görev değişikliği (devir nedeni) | Sick leave / Role change |
 
 ---
 
