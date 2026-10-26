@@ -45,7 +45,7 @@
 | `pad(n)` | 7 attendance dosyası | core tarih kodunda içeride var; dışa açılmalı |
 | Bugünün ISO tarihi | 4 (`event-count-screen:20`, `today-lessons:20`, `admin-live-screen:18`, `history-detail:111`) | core `todayIsoDate` (`packages/core/src/date/tr-date.ts:95`) |
 | `TR_WEEKDAYS` / `TR_MONTHS` dizileri | 11 dosya (attendance ×7, club, schedule ×2, notifications) | core `TR_WEEKDAYS_LONG/SHORT`, `TR_MONTHS_LONG/SHORT` |
-| Tarih biçimleyiciler | `formatTodayLabel` ×2 (aynı), `formatDayLabel` ×3, aralık/kısa tarih ~9 | core `formatTrLongDate`, `formatTrDateRange`, `formatTrShortDate`, `formatNotificationTimestamp` |
+| Tarih biçimleyiciler | `formatTodayLabel` ×2 (aynı), `formatDayLabel` ×3, aralık/kısa tarih ~9 | core `formatTrLongDate`, `formatDateRange` (packages/i18n; kısa biçim "3–13 Kasım"), `formatTrShortDate`, `formatNotificationTimestamp` |
 | Baş harf | 8 yerel (`initialsOf` ×3 aynı, club, announcement-detail, activity-detail, `more-screen:112` = `use-portal-header.ts:50`) | core'da zaten 3 kural var (`deriveInitials`, `clubInitials`, `previewInitials`) — web raporu §3 #11 ile **aynı karar** |
 | StatusTone → renk haritası | 4 birebir (`homework-parts:24`, `self-parts:40`, `homework-self-detail-screen:41`, `homework-family-detail-screen:34`) + `TONE_COLOR`, `TONE_TINT`, `TONE_STYLES`; `COUNT_TONE` ×2 (activities) | tek dosyaya |
 
